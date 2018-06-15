@@ -66,8 +66,8 @@ namespace KhuyenMai
 
         public string[] laythongtinkhuyenmai(string matong)
         {
-            string sql = string.Format("select matong,giagoc,giagiam from khuyemai where matong = '{0}'", matong);
-            string[] luu = new string[3];
+            string sql = string.Format("select giagoc,giagiam from khuyemai where matong = '{0}'", matong);
+            string[] luu = new string[2];
 
             MySqlCommand cmd = new MySqlCommand(sql, connection);
             Open();
