@@ -53,6 +53,7 @@
             this.txtbarcode.Size = new System.Drawing.Size(322, 35);
             this.txtbarcode.TabIndex = 0;
             this.txtbarcode.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtbarcode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtbarcode_KeyDown);
             // 
             // pictureBox1
             // 
@@ -184,7 +185,7 @@
             this.Controls.Add(this.txtmatong);
             this.Controls.Add(this.txtbarcode);
             this.Font = new System.Drawing.Font("Comic Sans MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

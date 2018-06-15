@@ -59,14 +59,18 @@ namespace KhuyenMai
                 h = dtr["masp"].ToString();
             }
             Close();
-            int vitri = h.IndexOf("-");
-            h = h.Substring(0, vitri);
+            if (h != null)
+            {
+                int vitri = h.IndexOf("-");
+                h = h.Substring(0, vitri);
+            }
+            
             return h;
         }
 
         public string[] laythongtinkhuyenmai(string matong)
         {
-            string sql = string.Format("select giagoc,giagiam from khuyemai where matong = '{0}'", matong);
+            string sql = string.Format("select k.giagoc,k.giagiam,m.mota,m.bst from khuyemai k join hangduocban m On k.matong= m.matong Where k.matong = '{0}'", matong);
             string[] luu = new string[2];
 
             MySqlCommand cmd = new MySqlCommand(sql, connection);
