@@ -54,11 +54,23 @@ namespace KhuyenMai
                 {
                     luu1 = doisangdonvitien(db_sogiam);
                     luu2 = "-";
+
                 }
             }
             else if (db_giagoc != 0)
             {
+                if (db_sogiam > 0 && db_sogiam < 1)
+                {
+                    luu1 =doisangdonvitien(db_giagoc -(db_sogiam*db_giagoc));
+                    luu2 = doisangphantramgiam(db_sogiam * 100);
+                }
+                else if (db_sogiam > 1)
+                {
+                    luu1 = doisangdonvitien(db_sogiam);
+                    luu2 = doisangphantramgiam(1 - db_sogiam/db_giagoc);
+                    
 
+                }
             }
             string[] luu = new string[2];
             luu[0] = luu1;
