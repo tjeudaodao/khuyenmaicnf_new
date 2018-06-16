@@ -18,6 +18,12 @@ namespace KhuyenMai
         {
             InitializeComponent();
         }
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            var con = ketnoi.Khoitao();
+
+            datag1.DataSource = con.bangKhuyenmai();
+        }
         void NotificationHts(string noidung)
         {
             PopupNotifier pop = new PopupNotifier();
@@ -40,26 +46,58 @@ namespace KhuyenMai
         }
         private void txtbarcode_KeyDown(object sender, KeyEventArgs e)
         {
-            if (!string.IsNullOrEmpty(txtbarcode.Text))
+            if (e.KeyCode == Keys.Enter)
             {
-                var con = ketnoi.Khoitao();
-                hamtao ham = new hamtao();
-                string matong = con.laymasp(txtbarcode.Text);
-                if (matong == null)
+                if (!string.IsNullOrEmpty(txtbarcode.Text))
                 {
-                    NotificationHts("Ma nay chua co trong danh muc");
-                    return;
-                }
-                lbmatong.Text = matong;
-                string[] laygiatri = con.laythongtinkhuyenmai(matong);
-                string[] ketqua = new string[2];
-                if (laygiatri != null)
-                {
-                    ketqua = ham.tinhToan(laygiatri[0], laygiatri[1]);
-                    lbgiachot.Text = ketqua[0];
-                    lbphantram.Text = ketqua[1];
+                    var con = ketnoi.Khoitao();
+                    hamtao ham = new hamtao();
+                    string matong = con.laymasp(txtbarcode.Text);
+                    if (matong == null)
+                    {
+                        NotificationHts("Ma nay chua co trong danh muc");
+                        txtbarcode.Clear();
+                        txtbarcode.Focus();
+                        return;
+                    }
+                    lbmatong.Text = matong;
+                    string[] laygiatri = con.laythongtinkhuyenmai(matong);
+                    string[] ketqua = new string[2];
+                    if (laygiatri != null)
+                    {
+                        ketqua = ham.tinhToan(laygiatri[0], laygiatri[1]);
+                        lbgiachot.Text = ketqua[0];
+                        lbphantram.Text = ketqua[1];
+                        lbmota.Text = "\" " + laygiatri[2] + " - " + laygiatri[3] + "\"";
+                    }
+                    else
+                    {
+                        lbgiachot.Text = "-";
+                        lbphantram.Text = "-";
+                        lbmota.Text = "";
+                    }
+                    txtbarcode.Clear();
+                    txtbarcode.Focus();
                 }
             }
+            
+        }
+
+        private void datag1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void txtmatong_TextChanged(object sender, EventArgs e)
+        {
+            var con = ketnoi.Khoitao();
+            datag1.DataSource = con.bangKhuyenmai(txtmatong.Text);
+        }
+
+        private void pbxoa_Click(object sender, EventArgs e)
+        {
+            txtmatong.Clear();
+            txtmatong.Focus();
         }
     }
 }

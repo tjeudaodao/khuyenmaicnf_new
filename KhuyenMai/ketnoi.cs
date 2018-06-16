@@ -70,8 +70,8 @@ namespace KhuyenMai
 
         public string[] laythongtinkhuyenmai(string matong)
         {
-            string sql = string.Format("select k.giagoc,k.giagiam,m.mota,m.bst from khuyemai k join hangduocban m On k.matong= m.matong Where k.matong = '{0}'", matong);
-            string[] luu = new string[2];
+            string sql = string.Format("select k.giagoc,k.giagiam,m.mota,m.chude from khuyenmai k join hangduocban m On k.matong= m.matong Where k.matong = '{0}'", matong);
+            string[] luu = new string[4];
 
             MySqlCommand cmd = new MySqlCommand(sql, connection);
             Open();
@@ -83,8 +83,32 @@ namespace KhuyenMai
                     luu[i] = dtr[i].ToString();
                 }
             }
-
+            Close();
             return luu;
+        }
+        public DataTable bangKhuyenmai()
+        {
+            string sql = "SELECT matong as 'Mã tổng', giagoc as 'Giá gốc', giagiam as 'Giá giảm' FROM KHUYENMAI GROUP BY matong";
+            DataTable dt = new DataTable();
+
+            Open();
+            MySqlDataAdapter dta = new MySqlDataAdapter(sql, connection);
+            dta.Fill(dt);
+            Close();
+            return dt;
+        }
+        public DataTable bangKhuyenmai(string locmatong)
+        {
+            DataTable dt = new DataTable();
+            string sql =string.Format( "SELECT matong as 'Mã tổng', giagoc as 'Giá gốc', giagiam as 'Giá giảm' FROM KHUYENMAI WHERE matong like '{0}%' GROUP BY matong",locmatong);
+            
+
+            Open();
+            MySqlDataAdapter dta = new MySqlDataAdapter(sql, connection);
+            dta.Fill(dt);
+            Close();
+            return dt;
+          
         }
         #endregion
     }

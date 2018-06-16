@@ -48,9 +48,9 @@
             // txtbarcode
             // 
             this.txtbarcode.Font = new System.Drawing.Font("Comic Sans MS", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtbarcode.Location = new System.Drawing.Point(195, 26);
+            this.txtbarcode.Location = new System.Drawing.Point(247, 26);
             this.txtbarcode.Name = "txtbarcode";
-            this.txtbarcode.Size = new System.Drawing.Size(322, 35);
+            this.txtbarcode.Size = new System.Drawing.Size(220, 35);
             this.txtbarcode.TabIndex = 0;
             this.txtbarcode.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtbarcode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtbarcode_KeyDown);
@@ -67,24 +67,29 @@
             // 
             // datag1
             // 
+            this.datag1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.datag1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
             this.datag1.BackgroundColor = System.Drawing.Color.WhiteSmoke;
             this.datag1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.datag1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.datag1.Location = new System.Drawing.Point(12, 259);
             this.datag1.Name = "datag1";
             this.datag1.RowHeadersVisible = false;
+            this.datag1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.datag1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.datag1.Size = new System.Drawing.Size(505, 420);
+            this.datag1.Size = new System.Drawing.Size(455, 420);
             this.datag1.TabIndex = 2;
+            this.datag1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datag1_CellClick);
             // 
             // txtmatong
             // 
             this.txtmatong.Font = new System.Drawing.Font("Comic Sans MS", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtmatong.Location = new System.Drawing.Point(195, 174);
+            this.txtmatong.Location = new System.Drawing.Point(246, 174);
             this.txtmatong.Name = "txtmatong";
-            this.txtmatong.Size = new System.Drawing.Size(322, 35);
-            this.txtmatong.TabIndex = 0;
+            this.txtmatong.Size = new System.Drawing.Size(220, 35);
+            this.txtmatong.TabIndex = 1;
             this.txtmatong.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtmatong.TextChanged += new System.EventHandler(this.txtmatong_TextChanged);
             // 
             // pbxoa
             // 
@@ -95,6 +100,7 @@
             this.pbxoa.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbxoa.TabIndex = 1;
             this.pbxoa.TabStop = false;
+            this.pbxoa.Click += new System.EventHandler(this.pbxoa_Click);
             // 
             // label1
             // 
@@ -123,9 +129,9 @@
             this.lbgiachot.BackColor = System.Drawing.Color.WhiteSmoke;
             this.lbgiachot.Font = new System.Drawing.Font("Comic Sans MS", 100F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbgiachot.ForeColor = System.Drawing.Color.DimGray;
-            this.lbgiachot.Location = new System.Drawing.Point(539, 26);
+            this.lbgiachot.Location = new System.Drawing.Point(487, 26);
             this.lbgiachot.Name = "lbgiachot";
-            this.lbgiachot.Size = new System.Drawing.Size(777, 239);
+            this.lbgiachot.Size = new System.Drawing.Size(829, 239);
             this.lbgiachot.TabIndex = 3;
             this.lbgiachot.Text = "Giá chốt";
             this.lbgiachot.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -135,9 +141,9 @@
             this.lbphantram.BackColor = System.Drawing.Color.WhiteSmoke;
             this.lbphantram.Font = new System.Drawing.Font("Comic Sans MS", 90F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbphantram.ForeColor = System.Drawing.Color.DimGray;
-            this.lbphantram.Location = new System.Drawing.Point(539, 295);
+            this.lbphantram.Location = new System.Drawing.Point(487, 295);
             this.lbphantram.Name = "lbphantram";
-            this.lbphantram.Size = new System.Drawing.Size(777, 239);
+            this.lbphantram.Size = new System.Drawing.Size(829, 239);
             this.lbphantram.TabIndex = 3;
             this.lbphantram.Text = "Số % giảm";
             this.lbphantram.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -147,9 +153,9 @@
             this.lbmota.BackColor = System.Drawing.Color.WhiteSmoke;
             this.lbmota.Font = new System.Drawing.Font("Comic Sans MS", 25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbmota.ForeColor = System.Drawing.Color.DimGray;
-            this.lbmota.Location = new System.Drawing.Point(539, 581);
+            this.lbmota.Location = new System.Drawing.Point(487, 561);
             this.lbmota.Name = "lbmota";
-            this.lbmota.Size = new System.Drawing.Size(777, 98);
+            this.lbmota.Size = new System.Drawing.Size(829, 118);
             this.lbmota.TabIndex = 3;
             this.lbmota.Text = "Mô tả sản phẩm";
             this.lbmota.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -160,9 +166,9 @@
             this.lbmatong.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.lbmatong.Font = new System.Drawing.Font("Comic Sans MS", 30F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbmatong.ForeColor = System.Drawing.Color.DimGray;
-            this.lbmatong.Location = new System.Drawing.Point(13, 82);
+            this.lbmatong.Location = new System.Drawing.Point(195, 82);
             this.lbmatong.Name = "lbmatong";
-            this.lbmatong.Size = new System.Drawing.Size(504, 73);
+            this.lbmatong.Size = new System.Drawing.Size(271, 73);
             this.lbmatong.TabIndex = 4;
             this.lbmatong.Text = "Mã tổng";
             this.lbmatong.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -190,6 +196,7 @@
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Check Khuyến Mãi ";
+            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.datag1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxoa)).EndInit();
