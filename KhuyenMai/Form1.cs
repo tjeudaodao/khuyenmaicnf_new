@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using Tulpep.NotificationWindow;
+using System.Text.RegularExpressions;
 
 namespace KhuyenMai
 {
@@ -43,6 +44,19 @@ namespace KhuyenMai
             pop.BorderColor = System.Drawing.Color.DimGray;
             pop.HeaderHeight = 1;
             pop.Popup();
+        }
+        void doiMauLable()
+        {
+            string mau = @"(^9,d{4})|(^29)|(^49)|(^59)|(^69)|(^79)|(^89)|(^99)|(^109)|(^119)|(^129)|(^159)|(^199)";
+            string mau1 = @"(^9,)|(^[123456789]9)|(^1[0123456789]9)|(^2[0123456789]9)";
+            string mauPhantram20 = @"20%";
+            string mauPhantram30 = @"30%$";
+            string mauPhantram40 = @"40%$";
+            string mauPhantram50 = @"50%$";
+            if (Regex.IsMatch(lbphantram.Text,mauPhantram20))
+            {
+                lbphantram.ForeColor = Color.SpringGreen;
+            }
         }
         private void txtbarcode_KeyDown(object sender, KeyEventArgs e)
         {
@@ -98,6 +112,7 @@ namespace KhuyenMai
         {
             txtmatong.Clear();
             txtmatong.Focus();
+
         }
     }
 }
