@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Data;
 
 using MySql.Data.MySqlClient;
+using System.Windows.Forms;
 
 namespace KhuyenMai
 {
@@ -32,7 +33,16 @@ namespace KhuyenMai
         {
             if (connection.State != ConnectionState.Open)
             {
-                connection.Open();
+                try
+                {
+                    connection.Open();
+                }
+                catch (Exception)
+                {
+
+                    MessageBox.Show("Có lỗi kết nối đến máy chủ. Xem lại mạng hoặc máy chủ gặp sự cố");
+                }
+                
             }
         }
 
@@ -70,7 +80,7 @@ namespace KhuyenMai
 
         public string[] laythongtinkhuyenmai(string matong)
         {
-            string sql = string.Format("select k.giagoc,k.giagiam,m.mota,m.chude from khuyenmai k join hangduocban m On k.matong= m.matong Where k.matong = '{0}'", matong);
+            string sql = string.Format("select k.giagoc,k.giagiam,m.mota,m.chude from khuyenmai k left join hangduocban m On k.matong= m.matong Where k.matong = '{0}'", matong);
             string[] luu = new string[4];
 
             MySqlCommand cmd = new MySqlCommand(sql, connection);
@@ -88,26 +98,43 @@ namespace KhuyenMai
         }
         public DataTable bangKhuyenmai()
         {
-            string sql = "SELECT matong as 'Mã tổng', giagoc as 'Giá gốc', giagiam as 'Giá giảm' FROM KHUYENMAI GROUP BY matong";
-            DataTable dt = new DataTable();
+            
+            try
+            {
+                string sql = "SELECT matong as 'Mã tổng', giagoc as 'Giá gốc', giagiam as 'Giá giảm' FROM KHUYENMAI GROUP BY matong";
+                DataTable dt = new DataTable();
+                Open();
+                MySqlDataAdapter dta = new MySqlDataAdapter(sql, connection);
+                dta.Fill(dt);
+                Close();
+                return dt;
+            }
+            catch (Exception)
+            {
 
-            Open();
-            MySqlDataAdapter dta = new MySqlDataAdapter(sql, connection);
-            dta.Fill(dt);
-            Close();
-            return dt;
+                return null;
+            }
+            
         }
         public DataTable bangKhuyenmai(string locmatong)
         {
             DataTable dt = new DataTable();
             string sql =string.Format( "SELECT matong as 'Mã tổng', giagoc as 'Giá gốc', giagiam as 'Giá giảm' FROM KHUYENMAI WHERE matong like '{0}%' GROUP BY matong",locmatong);
-            
 
-            Open();
-            MySqlDataAdapter dta = new MySqlDataAdapter(sql, connection);
-            dta.Fill(dt);
-            Close();
-            return dt;
+            try
+            {
+                Open();
+                MySqlDataAdapter dta = new MySqlDataAdapter(sql, connection);
+                dta.Fill(dt);
+                Close();
+                return dt;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+           
           
         }
         #endregion

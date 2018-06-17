@@ -15,6 +15,9 @@ namespace KhuyenMai
 {
     public partial class Form1 : Form
     {
+
+        DataTable dt = new DataTable();
+
         public Form1()
         {
             InitializeComponent();
@@ -47,16 +50,51 @@ namespace KhuyenMai
         }
         void doiMauLable()
         {
-            string mau = @"(^9,d{4})|(^29)|(^49)|(^59)|(^69)|(^79)|(^89)|(^99)|(^109)|(^119)|(^129)|(^159)|(^199)";
-            string mau1 = @"(^9,)|(^[123456789]9)|(^1[0123456789]9)|(^2[0123456789]9)";
-            string mauPhantram20 = @"20%";
-            string mauPhantram30 = @"30%$";
-            string mauPhantram40 = @"40%$";
-            string mauPhantram50 = @"50%$";
-            if (Regex.IsMatch(lbphantram.Text,mauPhantram20))
+            string mau = @"(^9,)|(^[123456789]9,)|(^1[0123456789]9,)|(^2[0123456789]9,)";
+            
+            string mauPhantram30 = @"30.0%$";
+            string mauPhantram40 = @"40.0%$";
+            string mauPhantram50 = @"50.0%$";
+            //sua mau gia ca
+            if (Regex.IsMatch(lbgiachot.Text,mau))
+            {
+                lbgiachot.ForeColor = Color.Violet;
+            }
+            else
+            {
+                lbgiachot.ForeColor = Color.DimGray;
+            }
+           // sua mau phan tram
+            if (Regex.IsMatch(lbphantram.Text,mauPhantram30))
             {
                 lbphantram.ForeColor = Color.SpringGreen;
             }
+            else if (Regex.IsMatch(lbphantram.Text, mauPhantram40))
+            {
+                lbphantram.ForeColor = Color.DarkOrange;
+            }
+            else if (Regex.IsMatch(lbphantram.Text, mauPhantram50))
+            {
+                lbphantram.ForeColor = Color.Tomato;
+            }
+            else
+            {
+                lbphantram.ForeColor = Color.DimGray;
+            }
+        }
+        void chenBang()
+        {
+
+            if (datag1.Rows.Count > 18)
+            {
+                datag1.DataSource = null;
+                dt.Columns.Add("Mã hàng");
+                dt.Columns.Add("Giá chốt");
+                dt.Columns.Add( "Giá giảm");
+
+                datag1.DataSource = dt;
+            }
+            datag1.Rows.Add(lbmatong.Text, lbgiachot.Text, lbphantram.Text);
         }
         private void txtbarcode_KeyDown(object sender, KeyEventArgs e)
         {
@@ -83,6 +121,8 @@ namespace KhuyenMai
                         lbgiachot.Text = ketqua[0];
                         lbphantram.Text = ketqua[1];
                         lbmota.Text = "\" " + laygiatri[2] + " - " + laygiatri[3] + "\"";
+                        doiMauLable(); // chay ham doi mau
+                        chenBang(); // them ma moi vao bang hien thi
                     }
                     else
                     {
@@ -99,7 +139,38 @@ namespace KhuyenMai
 
         private void datag1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            try
+            {
+                var con = ketnoi.Khoitao();
+                hamtao ham = new hamtao();
 
+                DataGridViewRow roww = datag1.Rows[e.RowIndex];
+                string matong = roww.Cells[0].Value.ToString();
+                lbmatong.Text = matong;
+                string[] laygiatri = con.laythongtinkhuyenmai(matong);
+                string[] ketqua = new string[2];
+                if (laygiatri != null)
+                {
+                    ketqua = ham.tinhToan(laygiatri[0], laygiatri[1]);
+                    lbgiachot.Text = ketqua[0];
+                    lbphantram.Text = ketqua[1];
+                    lbmota.Text = "\" " + laygiatri[2] + " - " + laygiatri[3] + "\"";
+                    doiMauLable(); // chay ham doi mau
+                    
+                }
+                else
+                {
+                    lbgiachot.Text = "-";
+                    lbphantram.Text = "-";
+                    lbmota.Text = "";
+                }
+               
+            }
+            catch (Exception)
+            {
+
+                return;
+            }
         }
 
         private void txtmatong_TextChanged(object sender, EventArgs e)
