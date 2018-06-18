@@ -67,10 +67,15 @@ namespace KhuyenMai
                 else if (db_sogiam > 1)
                 {
                     luu1 = doisangdonvitien(db_sogiam);
-                    luu2 = doisangphantramgiam(1 - db_sogiam/db_giagoc);
+                    luu2 = doisangphantramgiam((1 - db_sogiam/db_giagoc)*100);
                     
 
                 }
+            }
+            else
+            {
+                luu1 = null;
+                luu2 = null;
             }
             string[] luu = new string[2];
             luu[0] = luu1;

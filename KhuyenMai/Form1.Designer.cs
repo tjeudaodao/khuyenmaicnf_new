@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.txtbarcode = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.datag1 = new System.Windows.Forms.DataGridView();
@@ -41,6 +42,8 @@
             this.lbphantram = new System.Windows.Forms.Label();
             this.lbmota = new System.Windows.Forms.Label();
             this.lbmatong = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.lbcapnhat = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.datag1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxoa)).BeginInit();
@@ -72,21 +75,30 @@
             this.datag1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
             this.datag1.BackgroundColor = System.Drawing.Color.WhiteSmoke;
             this.datag1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.datag1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Comic Sans MS", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.datag1.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.datag1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.datag1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Comic Sans MS", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.datag1.DefaultCellStyle = dataGridViewCellStyle2;
             this.datag1.Location = new System.Drawing.Point(12, 259);
+            this.datag1.MultiSelect = false;
             this.datag1.Name = "datag1";
             this.datag1.RowHeadersVisible = false;
             this.datag1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.datag1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.datag1.Size = new System.Drawing.Size(455, 420);
+            this.datag1.Size = new System.Drawing.Size(455, 397);
             this.datag1.TabIndex = 2;
             this.datag1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datag1_CellClick);
             // 
@@ -182,12 +194,33 @@
             this.lbmatong.Text = "Mã tổng";
             this.lbmatong.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Comic Sans MS", 11F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(13, 666);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(175, 22);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Cập nhật gần nhất lúc : ";
+            // 
+            // lbcapnhat
+            // 
+            this.lbcapnhat.AutoSize = true;
+            this.lbcapnhat.Font = new System.Drawing.Font("Comic Sans MS", 11F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbcapnhat.Location = new System.Drawing.Point(191, 666);
+            this.lbcapnhat.Name = "lbcapnhat";
+            this.lbcapnhat.Size = new System.Drawing.Size(0, 22);
+            this.lbcapnhat.TabIndex = 5;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1344, 691);
+            this.Controls.Add(this.lbcapnhat);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.lbmatong);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lbmota);
@@ -200,6 +233,7 @@
             this.Controls.Add(this.txtmatong);
             this.Controls.Add(this.txtbarcode);
             this.Font = new System.Drawing.Font("Comic Sans MS", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.Name = "Form1";
@@ -227,6 +261,8 @@
         private System.Windows.Forms.Label lbphantram;
         private System.Windows.Forms.Label lbmota;
         private System.Windows.Forms.Label lbmatong;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lbcapnhat;
     }
 }
 

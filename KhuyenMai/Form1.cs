@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 using Tulpep.NotificationWindow;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace KhuyenMai
 {
@@ -17,16 +18,50 @@ namespace KhuyenMai
     {
 
         DataTable dt = new DataTable();
-
+        Thread capnhat;
         public Form1()
         {
             InitializeComponent();
+            capnhat = new Thread(hamcapnhat);
+            capnhat.IsBackground = true;
+            capnhat.Start();
         }
         private void Form1_Load(object sender, EventArgs e)
         {
             var con = ketnoi.Khoitao();
 
             datag1.DataSource = con.bangKhuyenmai();
+            dt.Columns.Add("Mã hàng");
+            dt.Columns.Add("Giá chốt");
+            dt.Columns.Add("Giá giảm");
+            dt.AcceptChanges();
+        }
+
+        void hamcapnhat()
+        {
+            while (true)
+            {
+                var con = ketnoi.Khoitao();
+                string ngay = con.layngaycapnhat();
+                if (ngay != null)
+                {
+                    Console.WriteLine(ngay);
+                    DateTime dt = DateTime.ParseExact(ngay, "YYYY-MM-DD", null);
+                    string dd = dt.ToString("DD-MM-YYYY");
+                    lbcapnhat.Invoke(new MethodInvoker(delegate {
+                        if (lbcapnhat.Text != dd)
+                        {
+                            lbcapnhat.Text = dd;
+                            this.Invoke(new Action(delegate
+                            {
+                                NotificationHts("Vừa Cập Nhật");
+                            }));
+                        }
+                    }));
+                }
+                Thread.Sleep(1800000);
+            }
+            
         }
         void NotificationHts(string noidung)
         {
@@ -48,7 +83,7 @@ namespace KhuyenMai
             pop.HeaderHeight = 1;
             pop.Popup();
         }
-        void doiMauLable()
+        void doiMau_Phatam()
         {
             string mau = @"(^9,)|(^[123456789]9,)|(^1[0123456789]9,)|(^2[0123456789]9,)";
             
@@ -56,9 +91,10 @@ namespace KhuyenMai
             string mauPhantram40 = @"40.0%$";
             string mauPhantram50 = @"50.0%$";
             //sua mau gia ca
-            if (Regex.IsMatch(lbgiachot.Text,mau))
+            if (Regex.IsMatch(lbgiachot.Text,mau) && lbphantram.Text != "-")
             {
                 lbgiachot.ForeColor = Color.Violet;
+                amthanh.phatDonggia();
             }
             else
             {
@@ -68,14 +104,17 @@ namespace KhuyenMai
             if (Regex.IsMatch(lbphantram.Text,mauPhantram30))
             {
                 lbphantram.ForeColor = Color.SpringGreen;
+                amthanh.phat30();
             }
             else if (Regex.IsMatch(lbphantram.Text, mauPhantram40))
             {
                 lbphantram.ForeColor = Color.DarkOrange;
+                amthanh.phat40();
             }
             else if (Regex.IsMatch(lbphantram.Text, mauPhantram50))
             {
                 lbphantram.ForeColor = Color.Tomato;
+                amthanh.phat50();
             }
             else
             {
@@ -85,17 +124,16 @@ namespace KhuyenMai
         void chenBang()
         {
 
-            if (datag1.Rows.Count > 18)
+            if (dt.Rows.Count > 12)
             {
-                datag1.DataSource = null;
-                dt.Columns.Add("Mã hàng");
-                dt.Columns.Add("Giá chốt");
-                dt.Columns.Add( "Giá giảm");
-
-                datag1.DataSource = dt;
+                dt.Clear();
             }
-            datag1.Rows.Add(lbmatong.Text, lbgiachot.Text, lbphantram.Text);
+            dt.Rows.Add(lbmatong.Text, lbgiachot.Text, lbphantram.Text);
+            datag1.DataSource = dt;
+            datag1.FirstDisplayedScrollingRowIndex =datag1.RowCount - 1;
+            datag1.Rows[datag1.RowCount - 2].Selected = true;
         }
+
         private void txtbarcode_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -115,20 +153,23 @@ namespace KhuyenMai
                     lbmatong.Text = matong;
                     string[] laygiatri = con.laythongtinkhuyenmai(matong);
                     string[] ketqua = new string[2];
-                    if (laygiatri != null)
+                    if (laygiatri[0] != null || laygiatri[1] != null)
                     {
                         ketqua = ham.tinhToan(laygiatri[0], laygiatri[1]);
                         lbgiachot.Text = ketqua[0];
                         lbphantram.Text = ketqua[1];
                         lbmota.Text = "\" " + laygiatri[2] + " - " + laygiatri[3] + "\"";
-                        doiMauLable(); // chay ham doi mau
+                        doiMau_Phatam(); // chay ham doi mau
                         chenBang(); // them ma moi vao bang hien thi
                     }
                     else
                     {
-                        lbgiachot.Text = "-";
+                        lbgiachot.Text = "Nguyên giá";
                         lbphantram.Text = "-";
-                        lbmota.Text = "";
+                        lbmota.Text = "^-^";
+                        chenBang();
+                        lbgiachot.ForeColor = Color.DimGray;
+                        lbphantram.ForeColor = Color.DimGray;
                     }
                     txtbarcode.Clear();
                     txtbarcode.Focus();
@@ -155,7 +196,7 @@ namespace KhuyenMai
                     lbgiachot.Text = ketqua[0];
                     lbphantram.Text = ketqua[1];
                     lbmota.Text = "\" " + laygiatri[2] + " - " + laygiatri[3] + "\"";
-                    doiMauLable(); // chay ham doi mau
+                    doiMau_Phatam(); // chay ham doi mau
                     
                 }
                 else
@@ -163,6 +204,7 @@ namespace KhuyenMai
                     lbgiachot.Text = "-";
                     lbphantram.Text = "-";
                     lbmota.Text = "";
+                    
                 }
                
             }

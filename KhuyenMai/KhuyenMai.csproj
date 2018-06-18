@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>label_G1F_icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Google.Protobuf, Version=3.5.1.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
       <HintPath>..\packages\Google.Protobuf.3.5.1\lib\net45\Google.Protobuf.dll</HintPath>
@@ -104,6 +107,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\totoro1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="label_G1F_icon.ico" />
+    <Content Include="label_lir_icon.ico" />
+    <None Include="Resources\Donggia.wav" />
+    <None Include="Resources\50.wav" />
+    <None Include="Resources\40.wav" />
+    <None Include="Resources\30.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

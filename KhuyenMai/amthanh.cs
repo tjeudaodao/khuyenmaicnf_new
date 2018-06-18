@@ -5,16 +5,32 @@ using System.Text;
 using System.Threading.Tasks;
 using hamamthanh = System.Media.SoundPlayer;
 
+
 namespace KhuyenMai
 {
     class amthanh
     {
-        hamamthanh haimuoiphantram= new  hamamthanh();
-        hamamthanh bamuoiphantram = new hamamthanh();
-        hamamthanh bonmuoiphantram = new hamamthanh();
-        hamamthanh nammuoiphantram = new hamamthanh();
+        static hamamthanh bamuoiphantram = new hamamthanh(Properties.Resources._30);
+        static hamamthanh bonmuoiphantram = new hamamthanh(Properties.Resources._40);
+        static hamamthanh nammuoiphantram = new hamamthanh(Properties.Resources._50);
 
-        hamamthanh amDonggia = new hamamthanh();
+        static hamamthanh amDonggia = new hamamthanh(Properties.Resources.Donggia);
 
+        public static void phat30()
+        {
+            bamuoiphantram.Play();
+        }
+        public static void phat40()
+        {
+            bonmuoiphantram.Play();
+        }
+        public static void phat50()
+        {
+            nammuoiphantram.Play();
+        }
+        public static void phatDonggia()
+        {
+            amDonggia.Play();
+        }
     }
 }
