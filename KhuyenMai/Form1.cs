@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using Tulpep.NotificationWindow;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Globalization;
 
 namespace KhuyenMai
 {
@@ -46,12 +47,10 @@ namespace KhuyenMai
                 if (ngay != null)
                 {
                     Console.WriteLine(ngay);
-                    DateTime dt = DateTime.ParseExact(ngay, "YYYY-MM-DD", null);
-                    string dd = dt.ToString("DD-MM-YYYY");
                     lbcapnhat.Invoke(new MethodInvoker(delegate {
-                        if (lbcapnhat.Text != dd)
+                        if (lbcapnhat.Text != ngay)
                         {
-                            lbcapnhat.Text = dd;
+                            lbcapnhat.Text = ngay;
                             this.Invoke(new Action(delegate
                             {
                                 NotificationHts("Vừa Cập Nhật");
@@ -60,6 +59,7 @@ namespace KhuyenMai
                     }));
                 }
                 Thread.Sleep(1800000);
+                //Thread.Sleep(5000);
             }
             
         }
@@ -78,7 +78,7 @@ namespace KhuyenMai
             pop.ImagePadding = new Padding(15);
             pop.ContentColor = System.Drawing.Color.White;
             pop.ContentFont = new System.Drawing.Font("Comic Sans MS", 13, System.Drawing.FontStyle.Bold);
-            pop.Delay = 3500;
+            pop.Delay = 1000;
             pop.BorderColor = System.Drawing.Color.DimGray;
             pop.HeaderHeight = 1;
             pop.Popup();
