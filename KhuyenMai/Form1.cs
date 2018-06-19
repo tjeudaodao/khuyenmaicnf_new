@@ -51,6 +51,10 @@ namespace KhuyenMai
                         if (lbcapnhat.Text != ngay)
                         {
                             lbcapnhat.Text = ngay;
+                            datag1.Invoke(new MethodInvoker(delegate ()
+                            {
+                                datag1.DataSource = con.bangKhuyenmai();
+                            }));
                             this.Invoke(new Action(delegate
                             {
                                 NotificationHts("Vừa Cập Nhật");
