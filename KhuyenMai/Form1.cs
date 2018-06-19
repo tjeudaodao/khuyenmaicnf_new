@@ -17,7 +17,7 @@ namespace KhuyenMai
 {
     public partial class Form1 : Form
     {
-
+        bool chay = true;
         DataTable dt = new DataTable();
         Thread capnhat;
         public Form1()
@@ -29,6 +29,7 @@ namespace KhuyenMai
         }
         private void Form1_Load(object sender, EventArgs e)
         {
+            amthanh.amluong(chay);
             var con = ketnoi.Khoitao();
 
             datag1.DataSource = con.bangKhuyenmai();
@@ -230,6 +231,20 @@ namespace KhuyenMai
             txtmatong.Clear();
             txtmatong.Focus();
 
+        }
+
+        private void pbamthanh_Click(object sender, EventArgs e)
+        {
+            chay = !chay;
+            amthanh.amluong(chay);
+            if (chay)
+            {
+                pbamthanh.Image = Properties.Resources.speaker;
+            }
+            else
+            {
+                pbamthanh.Image = Properties.Resources.mute;
+            }
         }
     }
 }

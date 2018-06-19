@@ -111,6 +111,10 @@
   <ItemGroup>
     <Content Include="label_G1F_icon.ico" />
     <Content Include="label_lir_icon.ico" />
+    <None Include="Resources\speaker %283%29.png" />
+    <None Include="Resources\speaker %281%29.png" />
+    <None Include="Resources\speaker.png" />
+    <None Include="Resources\speaker %282%29.png" />
     <None Include="Resources\Donggia.wav" />
     <None Include="Resources\50.wav" />
     <None Include="Resources\40.wav" />

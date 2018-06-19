@@ -30,10 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.txtbarcode = new System.Windows.Forms.TextBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.datag1 = new System.Windows.Forms.DataGridView();
             this.txtmatong = new System.Windows.Forms.TextBox();
-            this.pbxoa = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.lbgiachot = new System.Windows.Forms.Label();
@@ -42,9 +40,13 @@
             this.lbmatong = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.lbcapnhat = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.pbamthanh = new System.Windows.Forms.PictureBox();
+            this.pbxoa = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.datag1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbamthanh)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxoa)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // txtbarcode
@@ -57,16 +59,6 @@
             this.txtbarcode.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtbarcode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtbarcode_KeyDown);
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(195, 26);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(50, 35);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
-            // 
             // datag1
             // 
             this.datag1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
@@ -74,13 +66,13 @@
             this.datag1.BackgroundColor = System.Drawing.Color.WhiteSmoke;
             this.datag1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.datag1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.datag1.Location = new System.Drawing.Point(12, 259);
+            this.datag1.Location = new System.Drawing.Point(12, 237);
             this.datag1.MultiSelect = false;
             this.datag1.Name = "datag1";
             this.datag1.RowHeadersVisible = false;
             this.datag1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.datag1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.datag1.Size = new System.Drawing.Size(455, 397);
+            this.datag1.Size = new System.Drawing.Size(455, 408);
             this.datag1.TabIndex = 2;
             this.datag1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datag1_CellClick);
             // 
@@ -93,17 +85,6 @@
             this.txtmatong.TabIndex = 1;
             this.txtmatong.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtmatong.TextChanged += new System.EventHandler(this.txtmatong_TextChanged);
-            // 
-            // pbxoa
-            // 
-            this.pbxoa.Image = ((System.Drawing.Image)(resources.GetObject("pbxoa.Image")));
-            this.pbxoa.Location = new System.Drawing.Point(195, 174);
-            this.pbxoa.Name = "pbxoa";
-            this.pbxoa.Size = new System.Drawing.Size(50, 35);
-            this.pbxoa.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbxoa.TabIndex = 1;
-            this.pbxoa.TabStop = false;
-            this.pbxoa.Click += new System.EventHandler(this.pbxoa_Click);
             // 
             // label1
             // 
@@ -180,9 +161,9 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Comic Sans MS", 11F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(13, 666);
+            this.label3.Location = new System.Drawing.Point(12, 662);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(188, 22);
+            this.label3.Size = new System.Drawing.Size(178, 22);
             this.label3.TabIndex = 5;
             this.label3.Text = "Cập nhật gần nhất lúc : ";
             // 
@@ -190,11 +171,44 @@
             // 
             this.lbcapnhat.AutoSize = true;
             this.lbcapnhat.Font = new System.Drawing.Font("Comic Sans MS", 11F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbcapnhat.ForeColor = System.Drawing.Color.SpringGreen;
-            this.lbcapnhat.Location = new System.Drawing.Point(191, 666);
+            this.lbcapnhat.ForeColor = System.Drawing.Color.Indigo;
+            this.lbcapnhat.Location = new System.Drawing.Point(206, 662);
             this.lbcapnhat.Name = "lbcapnhat";
-            this.lbcapnhat.Size = new System.Drawing.Size(0, 22);
+            this.lbcapnhat.Size = new System.Drawing.Size(16, 22);
             this.lbcapnhat.TabIndex = 5;
+            this.lbcapnhat.Text = "-";
+            // 
+            // pbamthanh
+            // 
+            this.pbamthanh.Image = ((System.Drawing.Image)(resources.GetObject("pbamthanh.Image")));
+            this.pbamthanh.Location = new System.Drawing.Point(422, 651);
+            this.pbamthanh.Name = "pbamthanh";
+            this.pbamthanh.Size = new System.Drawing.Size(44, 37);
+            this.pbamthanh.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbamthanh.TabIndex = 6;
+            this.pbamthanh.TabStop = false;
+            this.pbamthanh.Click += new System.EventHandler(this.pbamthanh_Click);
+            // 
+            // pbxoa
+            // 
+            this.pbxoa.Image = ((System.Drawing.Image)(resources.GetObject("pbxoa.Image")));
+            this.pbxoa.Location = new System.Drawing.Point(195, 174);
+            this.pbxoa.Name = "pbxoa";
+            this.pbxoa.Size = new System.Drawing.Size(50, 35);
+            this.pbxoa.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbxoa.TabIndex = 1;
+            this.pbxoa.TabStop = false;
+            this.pbxoa.Click += new System.EventHandler(this.pbxoa_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(195, 26);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(50, 35);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
             // 
             // Form1
             // 
@@ -202,6 +216,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1344, 691);
+            this.Controls.Add(this.pbamthanh);
             this.Controls.Add(this.lbcapnhat);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.lbmatong);
@@ -223,9 +238,10 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Check Khuyến Mãi ";
             this.Load += new System.EventHandler(this.Form1_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.datag1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbamthanh)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxoa)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -246,6 +262,7 @@
         private System.Windows.Forms.Label lbmatong;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lbcapnhat;
+        private System.Windows.Forms.PictureBox pbamthanh;
     }
 }
 
