@@ -16,7 +16,6 @@ namespace KhuyenMai
         private ketnoi()
         {
             string connstring = string.Format("Server=27.72.29.28;port=3306; database=cnf; User Id=kho; password=1234");
-            // string connstring = string.Format("Server=localhost;port=3306; database=cnf; User Id=hts; password=1211");
             connection = new MySqlConnection(connstring);
         }
 
@@ -42,7 +41,7 @@ namespace KhuyenMai
 
                     MessageBox.Show("Có lỗi kết nối đến máy chủ. Xem lại mạng hoặc máy chủ gặp sự cố");
                 }
-                
+
             }
         }
 

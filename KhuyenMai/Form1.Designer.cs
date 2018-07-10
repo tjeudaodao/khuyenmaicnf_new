@@ -63,7 +63,7 @@
             // 
             this.datag1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.datag1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
-            this.datag1.BackgroundColor = System.Drawing.Color.WhiteSmoke;
+            this.datag1.BackgroundColor = System.Drawing.Color.White;
             this.datag1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.datag1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.datag1.Location = new System.Drawing.Point(12, 237);
@@ -110,7 +110,7 @@
             // 
             // lbgiachot
             // 
-            this.lbgiachot.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.lbgiachot.BackColor = System.Drawing.Color.White;
             this.lbgiachot.Font = new System.Drawing.Font("Comic Sans MS", 100F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbgiachot.ForeColor = System.Drawing.Color.DimGray;
             this.lbgiachot.Location = new System.Drawing.Point(487, 26);
@@ -122,7 +122,7 @@
             // 
             // lbphantram
             // 
-            this.lbphantram.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.lbphantram.BackColor = System.Drawing.Color.White;
             this.lbphantram.Font = new System.Drawing.Font("Comic Sans MS", 90F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbphantram.ForeColor = System.Drawing.Color.DimGray;
             this.lbphantram.Location = new System.Drawing.Point(487, 295);
@@ -134,7 +134,7 @@
             // 
             // lbmota
             // 
-            this.lbmota.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.lbmota.BackColor = System.Drawing.Color.White;
             this.lbmota.Font = new System.Drawing.Font("Comic Sans MS", 25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbmota.ForeColor = System.Drawing.Color.DimGray;
             this.lbmota.Location = new System.Drawing.Point(487, 561);
@@ -146,7 +146,7 @@
             // 
             // lbmatong
             // 
-            this.lbmatong.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.lbmatong.BackColor = System.Drawing.Color.White;
             this.lbmatong.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.lbmatong.Font = new System.Drawing.Font("Comic Sans MS", 30F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbmatong.ForeColor = System.Drawing.Color.DimGray;
@@ -163,9 +163,9 @@
             this.label3.Font = new System.Drawing.Font("Comic Sans MS", 11F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(12, 662);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(178, 22);
+            this.label3.Size = new System.Drawing.Size(187, 22);
             this.label3.TabIndex = 5;
-            this.label3.Text = "Cập nhật gần nhất lúc : ";
+            this.label3.Text = "Cập nhật gần nhất ngày : ";
             // 
             // lbcapnhat
             // 

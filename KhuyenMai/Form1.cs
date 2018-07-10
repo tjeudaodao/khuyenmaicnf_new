@@ -20,34 +20,47 @@ namespace KhuyenMai
         bool chay = true;
         DataTable dt = new DataTable();
         Thread capnhat;
+        Thread loadBang;
+
         public Form1()
         {
             InitializeComponent();
             capnhat = new Thread(hamcapnhat);
             capnhat.IsBackground = true;
             capnhat.Start();
+
+            loadBang = new Thread(hamloadBang);
+            loadBang.IsBackground = true;
+            loadBang.Start();
         }
         private void Form1_Load(object sender, EventArgs e)
         {
             amthanh.amluong(chay);
-            var con = ketnoi.Khoitao();
-
-            datag1.DataSource = con.bangKhuyenmai();
-            dt.Columns.Add("Mã hàng");
-            dt.Columns.Add("Giá chốt");
-            dt.Columns.Add("Giá giảm");
-            dt.AcceptChanges();
+            
         }
-
+        void hamloadBang()
+        {
+            Thread.Sleep(200);
+            var con = ketnoi.Khoitao();
+            datag1.Invoke(new MethodInvoker(delegate ()
+           {
+               datag1.DataSource = con.bangKhuyenmai();
+               dt.Columns.Add("Mã hàng");
+               dt.Columns.Add("Giá chốt");
+               dt.Columns.Add("Giá giảm");
+               dt.AcceptChanges();
+           }));
+            
+        }
         void hamcapnhat()
         {
             while (true)
             {
+                Thread.Sleep(400);
                 var con = ketnoi.Khoitao();
                 string ngay = con.layngaycapnhat();
                 if (ngay != null)
                 {
-                    Console.WriteLine(ngay);
                     lbcapnhat.Invoke(new MethodInvoker(delegate {
                         if (lbcapnhat.Text != ngay)
                         {
@@ -55,16 +68,17 @@ namespace KhuyenMai
                             datag1.Invoke(new MethodInvoker(delegate ()
                             {
                                 datag1.DataSource = con.bangKhuyenmai();
+                               
                             }));
                             this.Invoke(new Action(delegate
                             {
-                                NotificationHts("Vừa Cập Nhật");
+                                NotificationHts("Vừa Cập Nhật xong\nOk, triển chiêu.");
                             }));
                         }
                     }));
                 }
                 Thread.Sleep(1800000);
-                //Thread.Sleep(5000);
+                
             }
             
         }
@@ -150,7 +164,7 @@ namespace KhuyenMai
                     string matong = con.laymasp(txtbarcode.Text);
                     if (matong == null)
                     {
-                        NotificationHts("Ma nay chua co trong danh muc");
+                        NotificationHts("Lỗi\nMã này chưa có trong danh mục Khuyến Mãi");
                         txtbarcode.Clear();
                         txtbarcode.Focus();
                         return;
