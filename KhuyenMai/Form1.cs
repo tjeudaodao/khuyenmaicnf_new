@@ -12,6 +12,7 @@ using Tulpep.NotificationWindow;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Globalization;
+using System.IO;
 
 namespace KhuyenMai
 {
@@ -20,7 +21,7 @@ namespace KhuyenMai
         bool chay = true;
         DataTable dt = new DataTable();
         Thread capnhat;
-        Thread loadBang;
+        //Thread loadBang;
 
         public Form1()
         {
@@ -29,57 +30,104 @@ namespace KhuyenMai
             capnhat.IsBackground = true;
             capnhat.Start();
 
-            loadBang = new Thread(hamloadBang);
-            loadBang.IsBackground = true;
-            loadBang.Start();
+            //loadBang = new Thread(hamloadBang);
+            //loadBang.IsBackground = true;
+            //loadBang.Start();
         }
         private void Form1_Load(object sender, EventArgs e)
         {
             amthanh.amluong(chay);
-            
+            var con = ketnoikhuyenmai.Khoitao();
+            datag1.DataSource = con.bangKhuyenmai();
+            dt.Columns.Add("Mã hàng");
+            dt.Columns.Add("Giá chốt");
+            dt.Columns.Add("Giá giảm");
+            dt.AcceptChanges();
         }
-        void hamloadBang()
-        {
-            Thread.Sleep(200);
-            var con = ketnoi.Khoitao();
-            datag1.Invoke(new MethodInvoker(delegate ()
-           {
-               datag1.DataSource = con.bangKhuyenmai();
-               dt.Columns.Add("Mã hàng");
-               dt.Columns.Add("Giá chốt");
-               dt.Columns.Add("Giá giảm");
-               dt.AcceptChanges();
-           }));
+        //void hamloadBang()
+        //{
+        //    Thread.Sleep(200);
+        //    var con = ketnoikhuyenmai.Khoitao();
+        //    datag1.Invoke(new MethodInvoker(delegate ()
+        //   {
+        //       datag1.DataSource = con.bangKhuyenmai();
+        //       dt.Columns.Add("Mã hàng");
+        //       dt.Columns.Add("Giá chốt");
+        //       dt.Columns.Add("Giá giảm");
+        //       dt.AcceptChanges();
+        //   }));
             
-        }
+        //}
         void hamcapnhat()
         {
-            while (true)
+            try
             {
-                Thread.Sleep(400);
-                var con = ketnoi.Khoitao();
-                string ngay = con.layngaycapnhat();
-                if (ngay != null)
+                while (true)
                 {
-                    lbcapnhat.Invoke(new MethodInvoker(delegate {
-                        if (lbcapnhat.Text != ngay)
+                    Thread.Sleep(5000);
+                    var con = ketnoi.Khoitao();
+                    var consqlite = ketnoingaycapnhat.Khoitao();
+
+                    string ngay = con.layngaycapnhat();
+                    string ngaydata = con.layngayData();
+
+                    string ngaykm2 = consqlite.layngaycapnhat();
+                    string ngaydata2 = consqlite.layngayData();
+
+                    if (ngay != null)
+                    {
+                        if (ngaykm2 != ngay)
                         {
-                            lbcapnhat.Text = ngay;
+                            ftp ftpClient = new ftp(@"ftp://27.72.29.28/", "hts", "hoanglaota");
+                            if (File.Exists(Application.StartupPath + @"\datakhuyenmai.db"))
+                            {
+                                File.Delete(Application.StartupPath + @"\datakhuyenmai.db");
+                            }
+                            ftpClient.download("/app/luutru/datakhuyenmai.db", Application.StartupPath + @"\datakhuyenmai.db");
+
+                            
                             datag1.Invoke(new MethodInvoker(delegate ()
                             {
-                                datag1.DataSource = con.bangKhuyenmai();
-                               
+                                var conkm = ketnoikhuyenmai.Khoitao();
+                                datag1.DataSource = conkm.bangKhuyenmai();
+
                             }));
-                            this.Invoke(new Action(delegate
+                            this.Invoke(new Action(delegate ()
                             {
-                                NotificationHts("Vừa Cập Nhật xong\nOk, triển chiêu.");
+                                NotificationHts("Vừa Cập Nhật bảng khuyến mãi xong\nOk, triển chiêu.");
                             }));
+                            lbcapnhat.Invoke(new MethodInvoker(delegate ()
+                            {
+                                lbcapnhat.Text = ngay;
+                            }));
+                            consqlite.capnhatngayKM(ngay);
                         }
-                    }));
+                        if (ngaydata2 != ngaydata)
+                        {
+                            ftp ftpClient = new ftp(@"ftp://27.72.29.28/", "hts", "hoanglaota");
+                            if (File.Exists(Application.StartupPath + @"\databarcode.db"))
+                            {
+                                File.Delete(Application.StartupPath + @"\databarcode.db");
+                            }
+                            ftpClient.download("/app/luutru/databarcode.db", Application.StartupPath + @"\databarcode.db");
+                            
+                            this.Invoke(new Action(delegate()
+                            {
+                                NotificationHts("Vừa Cập Nhật bảng barcode xong\nOk, triển chiêu.");
+                            }));
+                            consqlite.capnhatngayData(ngay);
+                        }
+                    }
+                    Thread.Sleep(1800000);
+
                 }
-                Thread.Sleep(1800000);
-                
             }
+            catch (Exception)
+            {
+
+                return;
+            }
+           
             
         }
         void NotificationHts(string noidung)
@@ -159,7 +207,9 @@ namespace KhuyenMai
             {
                 if (!string.IsNullOrEmpty(txtbarcode.Text))
                 {
-                    var con = ketnoi.Khoitao();
+                    var con = ketnoisqlite.Khoitao();
+                    var conkm = ketnoikhuyenmai.Khoitao();
+
                     hamtao ham = new hamtao();
                     string matong = con.laymasp(txtbarcode.Text);
                     if (matong == null)
@@ -170,14 +220,29 @@ namespace KhuyenMai
                         return;
                     }
                     lbmatong.Text = matong;
-                    string[] laygiatri = con.laythongtinkhuyenmai(matong);
+                    string[] laygiatri = conkm.laythongtinkhuyenmai(matong);
+                    string[] laythongtinMota= null;
+                    try
+                    {
+                        var conmysql = ketnoi.Khoitao();
+                        laythongtinMota = conmysql.laythongtinMota(matong);
+                    }
+                    catch (Exception)
+                    {
+
+                        laythongtinMota = null;
+                    }
                     string[] ketqua = new string[2];
                     if (laygiatri[0] != null || laygiatri[1] != null)
                     {
                         ketqua = ham.tinhToan(laygiatri[0], laygiatri[1]);
                         lbgiachot.Text = ketqua[0];
                         lbphantram.Text = ketqua[1];
-                        lbmota.Text = "\" " + laygiatri[2] + " - " + laygiatri[3] + "\"";
+                        if (laythongtinMota[0] !=null || laythongtinMota[1] != null)
+                        {
+                            lbmota.Text = "\" " + laythongtinMota[0] + " - " + laythongtinMota[1] + "\"";
+                        }
+                        
                         doiMau_Phatam(); // chay ham doi mau
                         chenBang(); // them ma moi vao bang hien thi
                     }
@@ -201,20 +266,36 @@ namespace KhuyenMai
         {
             try
             {
-                var con = ketnoi.Khoitao();
+                var con = ketnoisqlite.Khoitao();
+                var conkm = ketnoikhuyenmai.Khoitao();
                 hamtao ham = new hamtao();
 
                 DataGridViewRow roww = datag1.Rows[e.RowIndex];
                 string matong = roww.Cells[0].Value.ToString();
                 lbmatong.Text = matong;
-                string[] laygiatri = con.laythongtinkhuyenmai(matong);
+                string[] laygiatri = conkm.laythongtinkhuyenmai(matong);
+
+                string[] laythongtinMota = null;
+                try
+                {
+                    var conmysql = ketnoi.Khoitao();
+                    laythongtinMota = conmysql.laythongtinMota(matong);
+                }
+                catch (Exception)
+                {
+
+                    laythongtinMota = null;
+                }
                 string[] ketqua = new string[2];
                 if (laygiatri != null)
                 {
                     ketqua = ham.tinhToan(laygiatri[0], laygiatri[1]);
                     lbgiachot.Text = ketqua[0];
                     lbphantram.Text = ketqua[1];
-                    lbmota.Text = "\" " + laygiatri[2] + " - " + laygiatri[3] + "\"";
+                    if (laythongtinMota[0] != null || laythongtinMota[1] != null)
+                    {
+                        lbmota.Text = "\" " + laythongtinMota[0] + " - " + laythongtinMota[1] + "\"";
+                    }
                     doiMau_Phatam(); // chay ham doi mau
                     
                 }
@@ -236,8 +317,17 @@ namespace KhuyenMai
 
         private void txtmatong_TextChanged(object sender, EventArgs e)
         {
-            var con = ketnoi.Khoitao();
-            datag1.DataSource = con.bangKhuyenmai(txtmatong.Text);
+            try
+            {
+                var con = ketnoikhuyenmai.Khoitao();
+                datag1.DataSource = con.bangKhuyenmai(txtmatong.Text);
+            }
+            catch (Exception)
+            {
+
+                NotificationHts("Có lỗi rồi");
+            }
+            
         }
 
         private void pbxoa_Click(object sender, EventArgs e)
