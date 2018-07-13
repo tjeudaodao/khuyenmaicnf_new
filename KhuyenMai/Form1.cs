@@ -201,64 +201,88 @@ namespace KhuyenMai
             datag1.Rows[datag1.RowCount - 2].Selected = true;
         }
 
-        private void txtbarcode_KeyDown(object sender, KeyEventArgs e)
+        void Laymota(string matong)
         {
-            if (e.KeyCode == Keys.Enter)
+            try
             {
-                if (!string.IsNullOrEmpty(txtbarcode.Text))
+                string[] laythongtinMota = null;
+                try
                 {
-                    var con = ketnoisqlite.Khoitao();
-                    var conkm = ketnoikhuyenmai.Khoitao();
+                    var conmysql = ketnoi.Khoitao();
+                    laythongtinMota = conmysql.laythongtinMota(matong);
+                }
+                catch (Exception)
+                {
 
-                    hamtao ham = new hamtao();
-                    string matong = con.laymasp(txtbarcode.Text);
-                    if (matong == null)
-                    {
-                        NotificationHts("Lỗi\nMã này chưa có trong danh mục Khuyến Mãi");
-                        txtbarcode.Clear();
-                        txtbarcode.Focus();
-                        return;
-                    }
-                    lbmatong.Text = matong;
-                    string[] laygiatri = conkm.laythongtinkhuyenmai(matong);
-                    string[] laythongtinMota= null;
-                    try
-                    {
-                        var conmysql = ketnoi.Khoitao();
-                        laythongtinMota = conmysql.laythongtinMota(matong);
-                    }
-                    catch (Exception)
-                    {
-
-                        laythongtinMota = null;
-                    }
-                    string[] ketqua = new string[2];
-                    if (laygiatri[0] != null || laygiatri[1] != null)
-                    {
-                        ketqua = ham.tinhToan(laygiatri[0], laygiatri[1]);
-                        lbgiachot.Text = ketqua[0];
-                        lbphantram.Text = ketqua[1];
-                        if (laythongtinMota[0] !=null || laythongtinMota[1] != null)
-                        {
-                            lbmota.Text = "\" " + laythongtinMota[0] + " - " + laythongtinMota[1] + "\"";
-                        }
-                        
-                        doiMau_Phatam(); // chay ham doi mau
-                        chenBang(); // them ma moi vao bang hien thi
-                    }
-                    else
-                    {
-                        lbgiachot.Text = "Nguyên giá";
-                        lbphantram.Text = "-";
-                        lbmota.Text = "^-^";
-                        chenBang();
-                        lbgiachot.ForeColor = Color.DimGray;
-                        lbphantram.ForeColor = Color.DimGray;
-                    }
-                    txtbarcode.Clear();
-                    txtbarcode.Focus();
+                    laythongtinMota = null;
+                }
+                if (laythongtinMota[0] != null || laythongtinMota[1] != null)
+                {
+                    lbmota.Text = "\" " + laythongtinMota[0] + " - " + laythongtinMota[1] + "\"";
                 }
             }
+            catch (Exception)
+            {
+                lbmota.Text = "^--^";
+                return;
+            }
+            
+        }
+        private void txtbarcode_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (e.KeyCode == Keys.Enter)
+                {
+                    if (!string.IsNullOrEmpty(txtbarcode.Text))
+                    {
+                        var con = ketnoisqlite.Khoitao();
+                        var conkm = ketnoikhuyenmai.Khoitao();
+
+                        hamtao ham = new hamtao();
+                        string matong = con.laymasp(txtbarcode.Text);
+                        if (matong == null)
+                        {
+                            NotificationHts("Lỗi\nMã này chưa có trong danh mục Khuyến Mãi");
+                            txtbarcode.Clear();
+                            txtbarcode.Focus();
+                            return;
+                        }
+                        lbmatong.Text = matong;
+                        string[] laygiatri = conkm.laythongtinkhuyenmai(matong);
+
+                        string[] ketqua = new string[2];
+                        if (laygiatri[0] != null || laygiatri[1] != null)
+                        {
+                            ketqua = ham.tinhToan(laygiatri[0], laygiatri[1]);
+                            lbgiachot.Text = ketqua[0];
+                            lbphantram.Text = ketqua[1];
+
+                            Laymota(matong);
+                            doiMau_Phatam(); // chay ham doi mau
+                            chenBang(); // them ma moi vao bang hien thi
+                        }
+                        else
+                        {
+                            lbgiachot.Text = "Nguyên giá";
+                            lbphantram.Text = "-";
+                            lbmota.Text = "^-^";
+                            chenBang();
+                            lbgiachot.ForeColor = Color.DimGray;
+                            lbphantram.ForeColor = Color.DimGray;
+                        }
+                        txtbarcode.Clear();
+                        txtbarcode.Focus();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                NotificationHts("Lỗi\n");
+                return;
+            }
+            
             
         }
 
@@ -275,27 +299,14 @@ namespace KhuyenMai
                 lbmatong.Text = matong;
                 string[] laygiatri = conkm.laythongtinkhuyenmai(matong);
 
-                string[] laythongtinMota = null;
-                try
-                {
-                    var conmysql = ketnoi.Khoitao();
-                    laythongtinMota = conmysql.laythongtinMota(matong);
-                }
-                catch (Exception)
-                {
-
-                    laythongtinMota = null;
-                }
+                
                 string[] ketqua = new string[2];
                 if (laygiatri != null)
                 {
                     ketqua = ham.tinhToan(laygiatri[0], laygiatri[1]);
                     lbgiachot.Text = ketqua[0];
                     lbphantram.Text = ketqua[1];
-                    if (laythongtinMota[0] != null || laythongtinMota[1] != null)
-                    {
-                        lbmota.Text = "\" " + laythongtinMota[0] + " - " + laythongtinMota[1] + "\"";
-                    }
+                    Laymota(matong);
                     doiMau_Phatam(); // chay ham doi mau
                     
                 }

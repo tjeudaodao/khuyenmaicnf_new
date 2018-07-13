@@ -15,7 +15,7 @@ namespace KhuyenMai
         #region khoitao
         private ketnoingaycapnhat()
         {
-            string connstring = @"Data source=databarcode.db;version=3;new=false";
+            string connstring = @"Data source=ngaycapnhat.db;version=3;new=false";
             connection = new SQLiteConnection(connstring);
         }
 
