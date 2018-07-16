@@ -37,8 +37,7 @@ namespace KhuyenMai
         private void Form1_Load(object sender, EventArgs e)
         {
             amthanh.amluong(chay);
-            var con = ketnoikhuyenmai.Khoitao();
-            datag1.DataSource = con.bangKhuyenmai();
+            
             dt.Columns.Add("Mã hàng");
             dt.Columns.Add("Giá chốt");
             dt.Columns.Add("Giá giảm");
@@ -60,32 +59,56 @@ namespace KhuyenMai
         //}
         void hamcapnhat()
         {
-            try
+            while (true)
             {
-                while (true)
+                try
                 {
-                    Thread.Sleep(5000);
-                    var con = ketnoi.Khoitao();
+                    Thread.Sleep(200);
+                    string ngay = null;
+                    string ngaydata = null;
+
+                    try
+                    {
+                        var con = ketnoi.Khoitao();
+                         ngay = con.layngaycapnhat();
+                         ngaydata = con.layngayData();
+                    }
+                    catch (Exception)
+                    {
+                        lbthongbapcapnhat.Invoke(new MethodInvoker(delegate ()
+                        {
+                            lbthongbapcapnhat.Text = "Có lỗi kết nối mạng";
+                        }));
+                        return;
+                    }
+                    
                     var consqlite = ketnoingaycapnhat.Khoitao();
 
-                    string ngay = con.layngaycapnhat();
-                    string ngaydata = con.layngayData();
+                    
 
                     string ngaykm2 = consqlite.layngaycapnhat();
                     string ngaydata2 = consqlite.layngayData();
-
-                    if (ngay != null)
+                    if (ngaykm2 != ngay)
                     {
-                        if (ngaykm2 != ngay)
+                        try
                         {
-                            ftp ftpClient = new ftp(@"ftp://27.72.29.28/", "hts", "hoanglaota");
-                            if (File.Exists(Application.StartupPath + @"\datakhuyenmai.db"))
+                            try
                             {
-                                File.Delete(Application.StartupPath + @"\datakhuyenmai.db");
-                            }
-                            ftpClient.download("/app/luutru/datakhuyenmai.db", Application.StartupPath + @"\datakhuyenmai.db");
+                                ftp ftpClient = new ftp(@"ftp://27.72.29.28/", "hts", "hoanglaota");
 
+                                ftpClient.download("app/luutru/datakhuyenmai.db", Application.StartupPath + @"\datakhuyenmai.db");
+                            }
+                            catch (Exception)
+                            {
+                                lbthongbapcapnhat.Invoke(new MethodInvoker(delegate ()
+                                {
+                                    lbthongbapcapnhat.Text = "Có lỗi kết nối mạng";
+                                }));
+                                return;
+                            }
                             
+
+
                             datag1.Invoke(new MethodInvoker(delegate ()
                             {
                                 var conkm = ketnoikhuyenmai.Khoitao();
@@ -102,33 +125,81 @@ namespace KhuyenMai
                             }));
                             consqlite.capnhatngayKM(ngay);
                         }
-                        if (ngaydata2 != ngaydata)
+                        catch (Exception)
                         {
-                            ftp ftpClient = new ftp(@"ftp://27.72.29.28/", "hts", "hoanglaota");
-                            if (File.Exists(Application.StartupPath + @"\databarcode.db"))
+                            lbthongbapcapnhat.Invoke(new MethodInvoker(delegate ()
                             {
-                                File.Delete(Application.StartupPath + @"\databarcode.db");
+                                lbthongbapcapnhat.Text = "Có bản cập nhật mới khởi động lại chương trình để cập nhật";
+                            }));
+                            consqlite.capnhatngayKM("-");
+                            throw;
+                        }
+                       
+                    }
+
+                    if (ngaydata2 != ngaydata)
+                    {
+                        try
+                        {
+                            try
+                            {
+                                ftp ftpClient = new ftp(@"ftp://27.72.29.28/", "hts", "hoanglaota");
+
+                                ftpClient.download("app/luutru/databarcode.db", Application.StartupPath + @"\databarcode.db");
                             }
-                            ftpClient.download("/app/luutru/databarcode.db", Application.StartupPath + @"\databarcode.db");
+                            catch (Exception)
+                            {
+                                lbthongbapcapnhat.Invoke(new MethodInvoker(delegate ()
+                                {
+                                    lbthongbapcapnhat.Text = "Có lỗi kết nối mạng";
+                                }));
+                                return;
+                            }
                             
-                            this.Invoke(new Action(delegate()
+
+                            this.Invoke(new Action(delegate ()
                             {
                                 NotificationHts("Vừa Cập Nhật bảng barcode xong\nOk, triển chiêu.");
                             }));
                             consqlite.capnhatngayData(ngay);
                         }
+                        catch (Exception)
+                        {
+                            lbthongbapcapnhat.Invoke(new MethodInvoker(delegate ()
+                            {
+                                lbthongbapcapnhat.Text = "Có bản cập nhật mới khởi động lại chương trình để cập nhật";
+                            }));
+                            consqlite.capnhatngayData("-");
+                            throw;
+                        }
+                        
                     }
-                    Thread.Sleep(1800000);
+                    datag1.Invoke(new MethodInvoker(delegate ()
+                    {
+                        var conkm = ketnoikhuyenmai.Khoitao();
+                        datag1.DataSource = conkm.bangKhuyenmai();
 
+                    }));
+                    lbcapnhat.Invoke(new MethodInvoker(delegate ()
+                    {
+                        lbcapnhat.Text = ngay;
+                    }));
                 }
-            }
-            catch (Exception)
-            {
+                catch (Exception)
+                {
+                    lbthongbapcapnhat.Invoke(new MethodInvoker(delegate ()
+                    {
+                        lbthongbapcapnhat.Text = "Có bản cập nhật mới - khởi động lại chương trình để cập nhật";
+                    }));
 
-                return;
+                    return;
+                }
+
+                Thread.Sleep(1800000);
+                //Thread.Sleep(3000);
             }
-           
-            
+
+
         }
         void NotificationHts(string noidung)
         {
@@ -360,6 +431,16 @@ namespace KhuyenMai
             {
                 pbamthanh.Image = Properties.Resources.mute;
             }
+        }
+
+        private void lbphantram_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lbmota_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

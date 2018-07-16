@@ -19,7 +19,7 @@ namespace KhuyenMai
             connection = new SQLiteConnection(connstring);
         }
 
-        private SQLiteConnection connection = null;
+        private static SQLiteConnection connection = null;
 
         private static ketnoikhuyenmai _instance = null;
         public static ketnoikhuyenmai Khoitao()
@@ -52,6 +52,14 @@ namespace KhuyenMai
                 connection.Close();
             }
         }
+        //public static void DisposeSQLite()
+        //{
+        //    connection.Close();
+        //    System.Data.SQLite.SQLiteConnection.ClearAllPools();
+
+        //    GC.Collect();
+        //    connection.Dispose();
+        //}
         #endregion
 
         public string[] laythongtinkhuyenmai(string matong)
@@ -78,7 +86,7 @@ namespace KhuyenMai
 
             try
             {
-                string sql = "SELECT matong as 'Mã tổng', giagoc as 'Giá gốc', giagiam as 'Giá giảm' FROM KHUYENMAI GROUP BY matong";
+                string sql = "SELECT matong as 'Mã tổng', giagoc as 'Giá gốc', giagiam as 'Giá giảm' FROM khuyenmai GROUP BY matong";
                 DataTable dt = new DataTable();
                 Open();
                 SQLiteDataAdapter dta = new SQLiteDataAdapter(sql, connection);
@@ -97,7 +105,7 @@ namespace KhuyenMai
         public DataTable bangKhuyenmai(string locmatong)
         {
             DataTable dt = new DataTable();
-            string sql = string.Format("SELECT matong as 'Mã tổng', giagoc as 'Giá gốc', giagiam as 'Giá giảm' FROM KHUYENMAI WHERE matong like '{0}%' GROUP BY matong", locmatong);
+            string sql = string.Format("SELECT matong as 'Mã tổng', giagoc as 'Giá gốc', giagiam as 'Giá giảm' FROM khuyenmai WHERE matong like '{0}%' GROUP BY matong", locmatong);
 
             try
             {

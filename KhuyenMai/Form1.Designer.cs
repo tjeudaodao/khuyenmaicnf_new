@@ -43,6 +43,7 @@
             this.pbamthanh = new System.Windows.Forms.PictureBox();
             this.pbxoa = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.lbthongbapcapnhat = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.datag1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbamthanh)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxoa)).BeginInit();
@@ -131,18 +132,20 @@
             this.lbphantram.TabIndex = 3;
             this.lbphantram.Text = "Số % giảm";
             this.lbphantram.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbphantram.Click += new System.EventHandler(this.lbphantram_Click);
             // 
             // lbmota
             // 
             this.lbmota.BackColor = System.Drawing.Color.White;
             this.lbmota.Font = new System.Drawing.Font("Comic Sans MS", 25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbmota.ForeColor = System.Drawing.Color.DimGray;
-            this.lbmota.Location = new System.Drawing.Point(487, 561);
+            this.lbmota.Location = new System.Drawing.Point(487, 550);
             this.lbmota.Name = "lbmota";
-            this.lbmota.Size = new System.Drawing.Size(829, 118);
+            this.lbmota.Size = new System.Drawing.Size(829, 95);
             this.lbmota.TabIndex = 3;
             this.lbmota.Text = "Mô tả sản phẩm";
             this.lbmota.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbmota.Click += new System.EventHandler(this.lbmota_Click);
             // 
             // lbmatong
             // 
@@ -210,6 +213,17 @@
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             // 
+            // lbthongbapcapnhat
+            // 
+            this.lbthongbapcapnhat.Font = new System.Drawing.Font("Comic Sans MS", 11F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbthongbapcapnhat.ForeColor = System.Drawing.Color.Crimson;
+            this.lbthongbapcapnhat.Location = new System.Drawing.Point(518, 666);
+            this.lbthongbapcapnhat.Name = "lbthongbapcapnhat";
+            this.lbthongbapcapnhat.Size = new System.Drawing.Size(798, 22);
+            this.lbthongbapcapnhat.TabIndex = 5;
+            this.lbthongbapcapnhat.Text = "-";
+            this.lbthongbapcapnhat.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -218,6 +232,7 @@
             this.ClientSize = new System.Drawing.Size(1344, 691);
             this.Controls.Add(this.pbamthanh);
             this.Controls.Add(this.lbcapnhat);
+            this.Controls.Add(this.lbthongbapcapnhat);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.lbmatong);
             this.Controls.Add(this.label2);
@@ -263,6 +278,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lbcapnhat;
         private System.Windows.Forms.PictureBox pbamthanh;
+        private System.Windows.Forms.Label lbthongbapcapnhat;
     }
 }
 

@@ -18,7 +18,7 @@ namespace KhuyenMai
             connection = new SQLiteConnection(connstring);
         }
 
-        private SQLiteConnection connection = null;
+        private static SQLiteConnection connection = null;
 
         private static ketnoisqlite _instance = null;
         public static ketnoisqlite Khoitao()
@@ -51,6 +51,14 @@ namespace KhuyenMai
                 connection.Close();
             }
         }
+        //public static void DisposeSQLite()
+        //{
+        //    connection.Close();
+        //    System.Data.SQLite.SQLiteConnection.ClearAllPools();
+
+        //    GC.Collect();
+        //    connection.Dispose();
+        //}
         #endregion
 
         public string laymasp(string barcode)
