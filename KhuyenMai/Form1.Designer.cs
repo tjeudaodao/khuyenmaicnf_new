@@ -36,7 +36,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.lbgiachot = new System.Windows.Forms.Label();
             this.lbphantram = new System.Windows.Forms.Label();
-            this.lbmota = new System.Windows.Forms.Label();
             this.lbmatong = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.lbcapnhat = new System.Windows.Forms.Label();
@@ -116,7 +115,7 @@
             this.lbgiachot.ForeColor = System.Drawing.Color.DimGray;
             this.lbgiachot.Location = new System.Drawing.Point(487, 26);
             this.lbgiachot.Name = "lbgiachot";
-            this.lbgiachot.Size = new System.Drawing.Size(829, 239);
+            this.lbgiachot.Size = new System.Drawing.Size(829, 311);
             this.lbgiachot.TabIndex = 3;
             this.lbgiachot.Text = "Giá chốt";
             this.lbgiachot.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -126,26 +125,13 @@
             this.lbphantram.BackColor = System.Drawing.Color.White;
             this.lbphantram.Font = new System.Drawing.Font("Comic Sans MS", 90F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbphantram.ForeColor = System.Drawing.Color.DimGray;
-            this.lbphantram.Location = new System.Drawing.Point(487, 295);
+            this.lbphantram.Location = new System.Drawing.Point(487, 385);
             this.lbphantram.Name = "lbphantram";
-            this.lbphantram.Size = new System.Drawing.Size(829, 239);
+            this.lbphantram.Size = new System.Drawing.Size(829, 260);
             this.lbphantram.TabIndex = 3;
             this.lbphantram.Text = "Số % giảm";
             this.lbphantram.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lbphantram.Click += new System.EventHandler(this.lbphantram_Click);
-            // 
-            // lbmota
-            // 
-            this.lbmota.BackColor = System.Drawing.Color.White;
-            this.lbmota.Font = new System.Drawing.Font("Comic Sans MS", 25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbmota.ForeColor = System.Drawing.Color.DimGray;
-            this.lbmota.Location = new System.Drawing.Point(487, 550);
-            this.lbmota.Name = "lbmota";
-            this.lbmota.Size = new System.Drawing.Size(829, 95);
-            this.lbmota.TabIndex = 3;
-            this.lbmota.Text = "Mô tả sản phẩm";
-            this.lbmota.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lbmota.Click += new System.EventHandler(this.lbmota_Click);
             // 
             // lbmatong
             // 
@@ -236,7 +222,6 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.lbmatong);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.lbmota);
             this.Controls.Add(this.lbphantram);
             this.Controls.Add(this.lbgiachot);
             this.Controls.Add(this.label1);
@@ -273,7 +258,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lbgiachot;
         private System.Windows.Forms.Label lbphantram;
-        private System.Windows.Forms.Label lbmota;
         private System.Windows.Forms.Label lbmatong;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lbcapnhat;

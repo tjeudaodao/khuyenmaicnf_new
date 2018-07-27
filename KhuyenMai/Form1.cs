@@ -223,7 +223,7 @@ namespace KhuyenMai
         }
         void doiMau_Phatam()
         {
-            string mau = @"(^9,)|(^[123456789]9,)|(^1[0123456789]9,)|(^2[0123456789]9,)";
+            string mau = @"(^9,0)|(^[123456789]9,0)|(^1[0123456789]9,0)|(^2[0123456789]9,0)|(^3[0123456789]9,0)";
             
             string mauPhantram30 = @"30.0%$";
             string mauPhantram40 = @"40.0%$";
@@ -272,33 +272,33 @@ namespace KhuyenMai
             datag1.Rows[datag1.RowCount - 2].Selected = true;
         }
 
-        void Laymota(string matong)
-        {
-            try
-            {
-                string[] laythongtinMota = null;
-                try
-                {
-                    var conmysql = ketnoi.Khoitao();
-                    laythongtinMota = conmysql.laythongtinMota(matong);
-                }
-                catch (Exception)
-                {
+        //void Laymota(string matong)
+        //{
+        //    try
+        //    {
+        //        string[] laythongtinMota = null;
+        //        //try
+        //        //{
+        //        //    var conmysql = ketnoi.Khoitao();
+        //        //    //laythongtinMota = conmysql.laythongtinMota(matong);
+        //        //}
+        //        //catch (Exception)
+        //        //{
 
-                    laythongtinMota = null;
-                }
-                if (laythongtinMota[0] != null || laythongtinMota[1] != null)
-                {
-                    lbmota.Text = "\" " + laythongtinMota[0] + " - " + laythongtinMota[1] + "\"";
-                }
-            }
-            catch (Exception)
-            {
-                lbmota.Text = "^--^";
-                return;
-            }
+        //        //    laythongtinMota = null;
+        //        //}
+        //        if (laythongtinMota[0] != null || laythongtinMota[1] != null)
+        //        {
+        //            lbmota.Text = "\" " + laythongtinMota[0] + " - " + laythongtinMota[1] + "\"";
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
+        //        lbmota.Text = "^--^";
+        //        return;
+        //    }
             
-        }
+        //}
         private void txtbarcode_KeyDown(object sender, KeyEventArgs e)
         {
             try
@@ -329,7 +329,7 @@ namespace KhuyenMai
                             lbgiachot.Text = ketqua[0];
                             lbphantram.Text = ketqua[1];
 
-                            Laymota(matong);
+                            //Laymota(matong);
                             doiMau_Phatam(); // chay ham doi mau
                             chenBang(); // them ma moi vao bang hien thi
                         }
@@ -337,7 +337,7 @@ namespace KhuyenMai
                         {
                             lbgiachot.Text = "Nguyên giá";
                             lbphantram.Text = "-";
-                            lbmota.Text = "^-^";
+                            //lbmota.Text = "^-^";
                             chenBang();
                             lbgiachot.ForeColor = Color.DimGray;
                             lbphantram.ForeColor = Color.DimGray;
@@ -377,7 +377,7 @@ namespace KhuyenMai
                     ketqua = ham.tinhToan(laygiatri[0], laygiatri[1]);
                     lbgiachot.Text = ketqua[0];
                     lbphantram.Text = ketqua[1];
-                    Laymota(matong);
+                   // Laymota(matong);
                     doiMau_Phatam(); // chay ham doi mau
                     
                 }
@@ -385,7 +385,7 @@ namespace KhuyenMai
                 {
                     lbgiachot.Text = "-";
                     lbphantram.Text = "-";
-                    lbmota.Text = "";
+                    //lbmota.Text = "";
                     
                 }
                

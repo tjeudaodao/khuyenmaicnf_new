@@ -166,24 +166,24 @@ namespace KhuyenMai
             Close();
             return h;
         }
-        public string[] laythongtinMota(string matong)
-        {
-            string sql = string.Format("select mota,chude from hangduocban Where matong = '{0}'", matong);
-            string[] luu = new string[2];
+        //public string[] laythongtinMota(string matong)
+        //{
+        //    string sql = string.Format("select mota,chude from hangduocban Where matong = '{0}'", matong);
+        //    string[] luu = new string[2];
 
-            MySqlCommand cmd = new MySqlCommand(sql, connection);
-            Open();
-            MySqlDataReader dtr = cmd.ExecuteReader();
-            while (dtr.Read())
-            {
-                for (int i = 0; i < luu.Length; i++)
-                {
-                    luu[i] = dtr[i].ToString();
-                }
-            }
-            Close();
-            return luu;
-        }
+        //    MySqlCommand cmd = new MySqlCommand(sql, connection);
+        //    Open();
+        //    MySqlDataReader dtr = cmd.ExecuteReader();
+        //    while (dtr.Read())
+        //    {
+        //        for (int i = 0; i < luu.Length; i++)
+        //        {
+        //            luu[i] = dtr[i].ToString();
+        //        }
+        //    }
+        //    Close();
+        //    return luu;
+        //}
         #endregion
     }
 }
