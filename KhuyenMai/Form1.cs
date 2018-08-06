@@ -66,12 +66,13 @@ namespace KhuyenMai
                     Thread.Sleep(200);
                     string ngay = null;
                     string ngaydata = null;
-
+                    string tongmaKMSV = null;
                     try
                     {
                         var con = ketnoi.Khoitao();
                          ngay = con.layngaycapnhat();
                          ngaydata = con.layngayData();
+                        tongmaKMSV = con.laytongsomaKM();
                     }
                     catch (Exception)
                     {
@@ -84,11 +85,11 @@ namespace KhuyenMai
                     
                     var consqlite = ketnoingaycapnhat.Khoitao();
 
-                    
 
+                    string tongmaKMCL = consqlite.tongmaKM();
                     string ngaykm2 = consqlite.layngaycapnhat();
                     string ngaydata2 = consqlite.layngayData();
-                    if (ngaykm2 != ngay)
+                    if (ngaykm2 != ngay || tongmaKMSV != tongmaKMCL)
                     {
                         try
                         {
@@ -97,6 +98,23 @@ namespace KhuyenMai
                                 ftp ftpClient = new ftp(@"ftp://27.72.29.28/", "hts", "hoanglaota");
 
                                 ftpClient.download("app/luutru/datakhuyenmai.db", Application.StartupPath + @"\datakhuyenmai.db");
+
+                                datag1.Invoke(new MethodInvoker(delegate ()
+                                {
+                                    var conkm = ketnoikhuyenmai.Khoitao();
+                                    datag1.DataSource = conkm.bangKhuyenmai();
+
+                                }));
+                                this.Invoke(new Action(delegate ()
+                                {
+                                    NotificationHts("Vừa Cập Nhật bảng khuyến mãi xong\nOk, triển chiêu.");
+                                }));
+                                lbcapnhat.Invoke(new MethodInvoker(delegate ()
+                                {
+                                    lbcapnhat.Text = ngay;
+                                }));
+                                consqlite.capnhatngayKM(ngay);
+                                consqlite.capnhattongmaKM(tongmaKMSV);
                             }
                             catch (Exception)
                             {
@@ -107,23 +125,6 @@ namespace KhuyenMai
                                 return;
                             }
                             
-
-
-                            datag1.Invoke(new MethodInvoker(delegate ()
-                            {
-                                var conkm = ketnoikhuyenmai.Khoitao();
-                                datag1.DataSource = conkm.bangKhuyenmai();
-
-                            }));
-                            this.Invoke(new Action(delegate ()
-                            {
-                                NotificationHts("Vừa Cập Nhật bảng khuyến mãi xong\nOk, triển chiêu.");
-                            }));
-                            lbcapnhat.Invoke(new MethodInvoker(delegate ()
-                            {
-                                lbcapnhat.Text = ngay;
-                            }));
-                            consqlite.capnhatngayKM(ngay);
                         }
                         catch (Exception)
                         {
@@ -161,7 +162,7 @@ namespace KhuyenMai
                             {
                                 NotificationHts("Vừa Cập Nhật bảng barcode xong\nOk, triển chiêu.");
                             }));
-                            consqlite.capnhatngayData(ngay);
+                            consqlite.capnhatngayData(ngaydata);
                         }
                         catch (Exception)
                         {
@@ -182,7 +183,7 @@ namespace KhuyenMai
                     }));
                     lbcapnhat.Invoke(new MethodInvoker(delegate ()
                     {
-                        lbcapnhat.Text = ngay;
+                        lbcapnhat.Text = ngaykm2;
                     }));
                 }
                 catch (Exception)

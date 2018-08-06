@@ -166,6 +166,21 @@ namespace KhuyenMai
             Close();
             return h;
         }
+        public string laytongsomaKM()
+        {
+            string sql = "SELECT tongmaKM FROM ngaycapnhat";
+            string h = null;
+
+            Open();
+            MySqlCommand cmd = new MySqlCommand(sql, connection);
+            MySqlDataReader dtr = cmd.ExecuteReader();
+            while (dtr.Read())
+            {
+                h = dtr[0].ToString();
+            }
+            Close();
+            return h;
+        }
         //public string[] laythongtinMota(string matong)
         //{
         //    string sql = string.Format("select mota,chude from hangduocban Where matong = '{0}'", matong);

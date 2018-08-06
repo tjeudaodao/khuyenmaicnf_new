@@ -84,6 +84,21 @@ namespace KhuyenMai
             Close();
             return h;
         }
+        public string tongmaKM()
+        {
+            string sql = "SELECT tongmaKM FROM ngaycapnhat";
+            string h = null;
+
+            Open();
+            SQLiteCommand cmd = new SQLiteCommand(sql, connection);
+            SQLiteDataReader dtr = cmd.ExecuteReader();
+            while (dtr.Read())
+            {
+                h = dtr[0].ToString();
+            }
+            Close();
+            return h;
+        }
         public void capnhatngayKM(string ngaycanup)
         {
             string sql = "update ngaycapnhat set ngaykhuyenmai='" + ngaycanup + "'";
@@ -96,6 +111,15 @@ namespace KhuyenMai
         public void capnhatngayData(string ngaycanup)
         {
             string sql = "update ngaycapnhat set ngaydata='" + ngaycanup + "'";
+
+            Open();
+            SQLiteCommand cmd = new SQLiteCommand(sql, connection);
+            cmd.ExecuteNonQuery();
+            Close();
+        }
+        public void capnhattongmaKM(string tongma)
+        {
+            string sql = "update ngaycapnhat set tongmaKM='" + tongma + "'";
 
             Open();
             SQLiteCommand cmd = new SQLiteCommand(sql, connection);
