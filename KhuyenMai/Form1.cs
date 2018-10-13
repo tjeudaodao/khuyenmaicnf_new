@@ -13,6 +13,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Globalization;
 using System.IO;
+using System.Diagnostics;
 
 namespace KhuyenMai
 {
@@ -21,7 +22,7 @@ namespace KhuyenMai
         bool chay = true;
         DataTable dt = new DataTable();
         Thread capnhat;
-        //Thread loadBang;
+        Thread closecheckupdate;
 
         public Form1()
         {
@@ -30,9 +31,23 @@ namespace KhuyenMai
             capnhat.IsBackground = true;
             capnhat.Start();
 
-            //loadBang = new Thread(hamloadBang);
-            //loadBang.IsBackground = true;
-            //loadBang.Start();
+            closecheckupdate = new Thread(CloseCheckupdate);
+            closecheckupdate.IsBackground = true;
+            closecheckupdate.Start();
+        }
+        public void CloseCheckupdate()
+        {
+            Process[] GetPArry = Process.GetProcesses();
+            foreach (Process testProcess in GetPArry)
+            {
+                string ProcessName = testProcess.ProcessName;
+                if (ProcessName.CompareTo("checkUpdate") == 0)
+                {
+                    testProcess.Kill();
+                    return;
+                }
+                    
+            }
         }
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -42,23 +57,21 @@ namespace KhuyenMai
             dt.Columns.Add("Giá chốt");
             dt.Columns.Add("Giá giảm");
             dt.AcceptChanges();
+
+            if (!File.Exists("capnhat.json"))
+            {
+                string h = @"{
+                            'phienban' : '0',
+                            'ngaycapnhat' : '-',
+                            'phienbanSV' : '0' 
+                            }                          
+                            ";
+                File.WriteAllText("capnhat.json", h);
+            }
         }
-        //void hamloadBang()
-        //{
-        //    Thread.Sleep(200);
-        //    var con = ketnoikhuyenmai.Khoitao();
-        //    datag1.Invoke(new MethodInvoker(delegate ()
-        //   {
-        //       datag1.DataSource = con.bangKhuyenmai();
-        //       dt.Columns.Add("Mã hàng");
-        //       dt.Columns.Add("Giá chốt");
-        //       dt.Columns.Add("Giá giảm");
-        //       dt.AcceptChanges();
-        //   }));
-            
-        //}
         void hamcapnhat()
         {
+            closecheckupdate.Join();
             while (true)
             {
                 try
@@ -70,16 +83,35 @@ namespace KhuyenMai
                     try
                     {
                         var con = ketnoi.Khoitao();
-                         ngay = con.layngaycapnhat();
-                         ngaydata = con.layngayData();
+                        ngay = con.layngaycapnhat();
+                        ngaydata = con.layngayData();
                         tongmaKMSV = con.laytongsomaKM();
+
+                        xulyJSON js = new xulyJSON();
+                        string layPhienbanSV = con.GetPhienban("khuyenmaicnf");
+                        js.UpdatevalueJSON("phienbanSV", layPhienbanSV);
+                        string layphienbanClient = js.ReadJSON("phienban");
+
+                        if (layphienbanClient != layPhienbanSV)
+                        {
+                            this.Invoke(new MethodInvoker(delegate ()
+                            {
+                                DialogResult hoi = MessageBox.Show(this, "Có phiên bản cập nhật mới\nCó muốn cập nhật luôn không?\n\n(Chú ý: Chương trình sẽ đóng lại)", "New update", MessageBoxButtons.YesNo);
+                                if (hoi == DialogResult.Yes)
+                                {
+                                    Process chayupdate = Process.Start(Application.StartupPath + "/checkUpdate.exe");
+                                    Application.Exit();
+                                }
+                            }));
+                        }
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
                         lbthongbapcapnhat.Invoke(new MethodInvoker(delegate ()
                         {
                             lbthongbapcapnhat.Text = "Có lỗi kết nối mạng";
                         }));
+                        ghiloi.WriteLogError(e);
                         return;
                     }
                     
@@ -130,7 +162,7 @@ namespace KhuyenMai
                         {
                             lbthongbapcapnhat.Invoke(new MethodInvoker(delegate ()
                             {
-                                lbthongbapcapnhat.Text = "Có bản cập nhật mới khởi động lại chương trình để cập nhật";
+                                lbthongbapcapnhat.Text = "Có bản dữ liệu mới khởi động lại chương trình để cập nhật";
                             }));
                             consqlite.capnhatngayKM("-");
                             throw;
@@ -168,7 +200,7 @@ namespace KhuyenMai
                         {
                             lbthongbapcapnhat.Invoke(new MethodInvoker(delegate ()
                             {
-                                lbthongbapcapnhat.Text = "Có bản cập nhật mới khởi động lại chương trình để cập nhật";
+                                lbthongbapcapnhat.Text = "Có bản dữ liệu mới khởi động lại chương trình để cập nhật";
                             }));
                             consqlite.capnhatngayData("-");
                             throw;
@@ -190,14 +222,13 @@ namespace KhuyenMai
                 {
                     lbthongbapcapnhat.Invoke(new MethodInvoker(delegate ()
                     {
-                        lbthongbapcapnhat.Text = "Có bản cập nhật mới - khởi động lại chương trình để cập nhật";
+                        lbthongbapcapnhat.Text = "Có bản dữ liệu mới - khởi động lại chương trình để cập nhật";
                     }));
 
                     return;
                 }
 
                 Thread.Sleep(1800000);
-                //Thread.Sleep(3000);
             }
 
 

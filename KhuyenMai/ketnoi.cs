@@ -55,87 +55,6 @@ namespace KhuyenMai
         #endregion
 
         #region Xuly
-        // lay masp tu barcode
-        //public string laymasp(string barcode)
-        //{
-        //    string sql = string.Format("SELECT masp FROM data WHERE barcode='{0}'", barcode);
-        //    string h = null;
-        //    MySqlCommand cmd = new MySqlCommand(sql, connection);
-        //    Open();
-        //    MySqlDataReader dtr = cmd.ExecuteReader();
-        //    while (dtr.Read())
-        //    {
-        //        h = dtr["masp"].ToString();
-        //    }
-        //    Close();
-        //    if (h != null)
-        //    {
-        //        int vitri = h.IndexOf("-");
-        //        h = h.Substring(0, vitri);
-        //    }
-
-        //    return h;
-        //}
-
-        //public string[] laythongtinkhuyenmai(string matong)
-        //{
-        //    string sql = string.Format("select k.giagoc,k.giagiam,m.mota,m.chude from khuyenmai k left join hangduocban m On k.matong= m.matong Where k.matong = '{0}'", matong);
-        //    string[] luu = new string[4];
-
-        //    MySqlCommand cmd = new MySqlCommand(sql, connection);
-        //    Open();
-        //    MySqlDataReader dtr = cmd.ExecuteReader();
-        //    while (dtr.Read())
-        //    {
-        //        for (int i = 0; i < luu.Length; i++)
-        //        {
-        //            luu[i] = dtr[i].ToString();
-        //        }
-        //    }
-        //    Close();
-        //    return luu;
-        //}
-        //public DataTable bangKhuyenmai()
-        //{
-
-        //    try
-        //    {
-        //        string sql = "SELECT matong as 'Mã tổng', giagoc as 'Giá gốc', giagiam as 'Giá giảm' FROM KHUYENMAI GROUP BY matong";
-        //        DataTable dt = new DataTable();
-        //        Open();
-        //        MySqlDataAdapter dta = new MySqlDataAdapter(sql, connection);
-        //        dta.Fill(dt);
-        //        Close();
-        //        return dt;
-        //    }
-        //    catch (Exception)
-        //    {
-
-        //        return null;
-        //    }
-
-        //}
-        //public DataTable bangKhuyenmai(string locmatong)
-        //{
-        //    DataTable dt = new DataTable();
-        //    string sql =string.Format( "SELECT matong as 'Mã tổng', giagoc as 'Giá gốc', giagiam as 'Giá giảm' FROM KHUYENMAI WHERE matong like '{0}%' GROUP BY matong",locmatong);
-
-        //    try
-        //    {
-        //        Open();
-        //        MySqlDataAdapter dta = new MySqlDataAdapter(sql, connection);
-        //        dta.Fill(dt);
-        //        Close();
-        //        return dt;
-        //    }
-        //    catch (Exception)
-        //    {
-
-        //        throw;
-        //    }
-
-
-        //}
         public string layngayData()
         {
             string sql = "SELECT ngaydata FROM ngaycapnhat";
@@ -168,7 +87,7 @@ namespace KhuyenMai
         }
         public string laytongsomaKM()
         {
-            string sql = "SELECT tongmaKM FROM ngaycapnhat";
+            string sql = "SELECT tongmakhuyenmai FROM ngaycapnhat";
             string h = null;
 
             Open();
@@ -180,6 +99,19 @@ namespace KhuyenMai
             }
             Close();
             return h;
+        }
+
+        public string GetPhienban(string tenungdung)
+        {
+            string kq = null;
+            string sql = "select phienban from bangcapnhatphanmem where tenungdung = '" + tenungdung + "'";
+            Open();
+            MySqlCommand cmd = new MySqlCommand(sql, connection);
+            MySqlDataReader dtr = cmd.ExecuteReader();
+            dtr.Read();
+            kq = dtr[0].ToString();
+            Close();
+            return kq;
         }
         //public string[] laythongtinMota(string matong)
         //{
