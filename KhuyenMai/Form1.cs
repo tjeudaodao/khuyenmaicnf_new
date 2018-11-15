@@ -20,6 +20,7 @@ namespace KhuyenMai
     public partial class Form1 : Form
     {
         bool chay = true;
+        static bool bang1 = true;
         DataTable dt = new DataTable();
         Thread capnhat;
         Thread closecheckupdate;
@@ -302,6 +303,7 @@ namespace KhuyenMai
             datag1.DataSource = dt;
             datag1.FirstDisplayedScrollingRowIndex =datag1.RowCount - 1;
             datag1.Rows[datag1.RowCount - 2].Selected = true;
+            bang1 = false;
         }
 
         //void Laymota(string matong)
@@ -360,9 +362,7 @@ namespace KhuyenMai
                             ketqua = ham.tinhToan(laygiatri[0], laygiatri[1], lbgiachot, lbphantram);
                             lbgiachot.Text = ketqua[0];
                             lbphantram.Text = ketqua[1];
-
-                            //Laymota(matong);
-                            //doiMau_Phatam(); // chay ham doi mau
+                            
                             chenBang(); // them ma moi vao bang hien thi
                         }
                         else
@@ -392,18 +392,25 @@ namespace KhuyenMai
         {
             try
             {
-                hamtao ham = new hamtao();
-
                 DataGridViewRow roww = datag1.Rows[e.RowIndex];
                 string matong = roww.Cells[0].Value.ToString();
                 lbmatong.Text = matong;
                 string giagoc = roww.Cells[1].Value.ToString();
                 string giagiam = roww.Cells[2].Value.ToString();
-                string[] ketqua = new string[2];
-                ketqua = ham.tinhToan(giagoc, giagiam, lbgiachot, lbphantram);
-                lbgiachot.Text = ketqua[0];
-                lbphantram.Text = ketqua[1];
-                  
+                if (bang1)
+                {
+                    hamtao ham = new hamtao();
+                    
+                    string[] ketqua = new string[2];
+                    ketqua = ham.tinhToan(giagoc, giagiam, lbgiachot, lbphantram);
+                    lbgiachot.Text = ketqua[0];
+                    lbphantram.Text = ketqua[1];
+                }
+                else
+                {
+                    lbgiachot.Text = giagoc;
+                    lbphantram.Text = giagiam;
+                }
             }
             catch (Exception)
             {
@@ -418,6 +425,7 @@ namespace KhuyenMai
             {
                 var con = ketnoikhuyenmai.Khoitao();
                 datag1.DataSource = con.bangKhuyenmai(txtmatong.Text);
+                bang1 = true;
             }
             catch (Exception)
             {
