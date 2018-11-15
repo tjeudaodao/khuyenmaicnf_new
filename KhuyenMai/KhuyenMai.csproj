@@ -143,6 +143,25 @@
   <ItemGroup>
     <Content Include="label_G1F_icon.ico" />
     <Content Include="label_lir_icon.ico" />
+    <None Include="Resources\30pt.wav" />
+    <None Include="Resources\50pt.wav" />
+    <None Include="Resources\40pt.wav" />
+    <None Include="Resources\599.wav" />
+    <None Include="Resources\549.wav" />
+    <None Include="Resources\369.wav" />
+    <None Include="Resources\349.wav" />
+    <None Include="Resources\299.wav" />
+    <None Include="Resources\249.wav" />
+    <None Include="Resources\199.wav" />
+    <None Include="Resources\149.wav" />
+    <None Include="Resources\119.wav" />
+    <None Include="Resources\99.wav" />
+    <None Include="Resources\79.wav" />
+    <None Include="Resources\49.wav" />
+    <None Include="Resources\29.wav" />
+    <None Include="Resources\20pt.wav" />
+    <None Include="Resources\10pt.wav" />
+    <None Include="Resources\9.wav" />
     <None Include="Resources\speaker %283%29.png" />
     <None Include="Resources\speaker %281%29.png" />
     <None Include="Resources\speaker.png" />

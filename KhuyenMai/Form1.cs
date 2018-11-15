@@ -357,19 +357,18 @@ namespace KhuyenMai
                         string[] ketqua = new string[2];
                         if (laygiatri[0] != null || laygiatri[1] != null)
                         {
-                            ketqua = ham.tinhToan(laygiatri[0], laygiatri[1]);
+                            ketqua = ham.tinhToan(laygiatri[0], laygiatri[1], lbgiachot, lbphantram);
                             lbgiachot.Text = ketqua[0];
                             lbphantram.Text = ketqua[1];
 
                             //Laymota(matong);
-                            doiMau_Phatam(); // chay ham doi mau
+                            //doiMau_Phatam(); // chay ham doi mau
                             chenBang(); // them ma moi vao bang hien thi
                         }
                         else
                         {
                             lbgiachot.Text = "Nguyên giá";
                             lbphantram.Text = "-";
-                            //lbmota.Text = "^-^";
                             chenBang();
                             lbgiachot.ForeColor = Color.DimGray;
                             lbphantram.ForeColor = Color.DimGray;
@@ -393,34 +392,18 @@ namespace KhuyenMai
         {
             try
             {
-                var con = ketnoisqlite.Khoitao();
-                var conkm = ketnoikhuyenmai.Khoitao();
                 hamtao ham = new hamtao();
 
                 DataGridViewRow roww = datag1.Rows[e.RowIndex];
                 string matong = roww.Cells[0].Value.ToString();
                 lbmatong.Text = matong;
-                string[] laygiatri = conkm.laythongtinkhuyenmai(matong);
-
-                
+                string giagoc = roww.Cells[1].Value.ToString();
+                string giagiam = roww.Cells[2].Value.ToString();
                 string[] ketqua = new string[2];
-                if (laygiatri != null)
-                {
-                    ketqua = ham.tinhToan(laygiatri[0], laygiatri[1]);
-                    lbgiachot.Text = ketqua[0];
-                    lbphantram.Text = ketqua[1];
-                   // Laymota(matong);
-                    doiMau_Phatam(); // chay ham doi mau
-                    
-                }
-                else
-                {
-                    lbgiachot.Text = "-";
-                    lbphantram.Text = "-";
-                    //lbmota.Text = "";
-                    
-                }
-               
+                ketqua = ham.tinhToan(giagoc, giagiam, lbgiachot, lbphantram);
+                lbgiachot.Text = ketqua[0];
+                lbphantram.Text = ketqua[1];
+                  
             }
             catch (Exception)
             {
