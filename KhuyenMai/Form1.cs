@@ -35,6 +35,30 @@ namespace KhuyenMai
             closecheckupdate = new Thread(CloseCheckupdate);
             closecheckupdate.IsBackground = true;
             closecheckupdate.Start();
+            if (!File.Exists("capnhat_data.json"))
+            {
+                string hh = @"{
+                            'dbbarcode' : {
+                                'phienban_cl' : '0',
+                                'phienban_sv' : '0'
+                                },
+                            'dbkhuyenmai' : {
+                                'phienban_cl' : '0',
+                                'phienban_sv' : '0'
+                                }
+                            }";
+                File.WriteAllText("capnhat_data.json", hh);
+            }
+            try
+            {
+                xulyfirebase.langnghe_khuyenmai(lbcapnhat, this, datag1);
+                xulyfirebase.langnghe_barcode(this);
+            }
+            catch (Exception)
+            {
+                return;
+            }
+            
         }
         public void CloseCheckupdate()
         {
@@ -69,14 +93,13 @@ namespace KhuyenMai
                             ";
                 File.WriteAllText("capnhat.json", h);
             }
+            
         }
         void hamcapnhat()
         {
             closecheckupdate.Join();
             while (true)
             {
-                try
-                {
                     Thread.Sleep(200);
                     string ngay = null;
                     string ngaydata = null;
@@ -110,126 +133,117 @@ namespace KhuyenMai
                     {
                         lbthongbapcapnhat.Invoke(new MethodInvoker(delegate ()
                         {
-                            lbthongbapcapnhat.Text = "Có lỗi kết nối mạng";
+                            lbthongbapcapnhat.Text = "Có lỗi kết nối đến máy chủ MySql";
                         }));
                         ghiloi.WriteLogError(e);
                         return;
                     }
-                    
-                    var consqlite = ketnoingaycapnhat.Khoitao();
+
+                    //    var consqlite = ketnoingaycapnhat.Khoitao();
 
 
-                    string tongmaKMCL = consqlite.tongmaKM();
-                    string ngaykm2 = consqlite.layngaycapnhat();
-                    string ngaydata2 = consqlite.layngayData();
-                    if (ngaykm2 != ngay || tongmaKMSV != tongmaKMCL)
-                    {
-                        try
-                        {
-                            try
-                            {
-                                ftp ftpClient = new ftp(@"ftp://27.72.29.28/", "hts", "hoanglaota");
+                    //    string tongmaKMCL = consqlite.tongmaKM();
+                    //    string ngaykm2 = consqlite.layngaycapnhat();
+                    //    string ngaydata2 = consqlite.layngayData();
+                    //    if (ngaykm2 != ngay || tongmaKMSV != tongmaKMCL)
+                    //    {
+                    //        try
+                    //        {
+                    //            try
+                    //            {
+                    //                ftp ftpClient = new ftp(@"ftp://27.72.29.28/", "hts", "hoanglaota");
 
-                                ftpClient.download("app/luutru/datakhuyenmai.db", Application.StartupPath + @"\datakhuyenmai.db");
+                    //                ftpClient.download("app/luutru/datakhuyenmai.db", Application.StartupPath + @"\datakhuyenmai.db");
 
-                                datag1.Invoke(new MethodInvoker(delegate ()
-                                {
-                                    var conkm = ketnoikhuyenmai.Khoitao();
-                                    datag1.DataSource = conkm.bangKhuyenmai();
+                    //                datag1.Invoke(new MethodInvoker(delegate ()
+                    //                {
+                    //                    var conkm = ketnoikhuyenmai.Khoitao();
+                    //                    datag1.DataSource = conkm.bangKhuyenmai();
 
-                                }));
-                                this.Invoke(new Action(delegate ()
-                                {
-                                    NotificationHts("Vừa Cập Nhật bảng khuyến mãi xong\nOk, triển chiêu.");
-                                }));
-                                lbcapnhat.Invoke(new MethodInvoker(delegate ()
-                                {
-                                    lbcapnhat.Text = ngay;
-                                }));
-                                consqlite.capnhatngayKM(ngay);
-                                consqlite.capnhattongmaKM(tongmaKMSV);
-                            }
-                            catch (Exception)
-                            {
-                                lbthongbapcapnhat.Invoke(new MethodInvoker(delegate ()
-                                {
-                                    lbthongbapcapnhat.Text = "Có lỗi kết nối mạng";
-                                }));
-                                return;
-                            }
-                            
-                        }
-                        catch (Exception)
-                        {
-                            lbthongbapcapnhat.Invoke(new MethodInvoker(delegate ()
-                            {
-                                lbthongbapcapnhat.Text = "Có bản dữ liệu mới khởi động lại chương trình để cập nhật";
-                            }));
-                            consqlite.capnhatngayKM("-");
-                            throw;
-                        }
-                       
-                    }
+                    //                }));
+                    //                this.Invoke(new Action(delegate ()
+                    //                {
+                    //                    NotificationHts("Vừa Cập Nhật bảng khuyến mãi xong\nOk, triển chiêu.");
+                    //                }));
+                    //                lbcapnhat.Invoke(new MethodInvoker(delegate ()
+                    //                {
+                    //                    lbcapnhat.Text = ngay;
+                    //                }));
+                    //                consqlite.capnhatngayKM(ngay);
+                    //                consqlite.capnhattongmaKM(tongmaKMSV);
+                    //            }
+                    //            catch (Exception)
+                    //            {
+                    //                lbthongbapcapnhat.Invoke(new MethodInvoker(delegate ()
+                    //                {
+                    //                    lbthongbapcapnhat.Text = "Có lỗi kết nối mạng";
+                    //                }));
+                    //                return;
+                    //            }
 
-                    if (ngaydata2 != ngaydata)
-                    {
-                        try
-                        {
-                            try
-                            {
-                                ftp ftpClient = new ftp(@"ftp://27.72.29.28/", "hts", "hoanglaota");
+                    //        }
+                    //        catch (Exception)
+                    //        {
+                    //            lbthongbapcapnhat.Invoke(new MethodInvoker(delegate ()
+                    //            {
+                    //                lbthongbapcapnhat.Text = "Có bản dữ liệu mới khởi động lại chương trình để cập nhật";
+                    //            }));
+                    //            consqlite.capnhatngayKM("-");
+                    //            throw;
+                    //        }
 
-                                ftpClient.download("app/luutru/databarcode.db", Application.StartupPath + @"\databarcode.db");
-                            }
-                            catch (Exception)
-                            {
-                                lbthongbapcapnhat.Invoke(new MethodInvoker(delegate ()
-                                {
-                                    lbthongbapcapnhat.Text = "Có lỗi kết nối mạng";
-                                }));
-                                return;
-                            }
-                            
+                    //    }
 
-                            this.Invoke(new Action(delegate ()
-                            {
-                                NotificationHts("Vừa Cập Nhật bảng barcode xong\nOk, triển chiêu.");
-                            }));
-                            consqlite.capnhatngayData(ngaydata);
-                        }
-                        catch (Exception)
-                        {
-                            lbthongbapcapnhat.Invoke(new MethodInvoker(delegate ()
-                            {
-                                lbthongbapcapnhat.Text = "Có bản dữ liệu mới khởi động lại chương trình để cập nhật";
-                            }));
-                            consqlite.capnhatngayData("-");
-                            throw;
-                        }
-                        
-                    }
-                    datag1.Invoke(new MethodInvoker(delegate ()
-                    {
-                        var conkm = ketnoikhuyenmai.Khoitao();
-                        datag1.DataSource = conkm.bangKhuyenmai();
+                    //    if (ngaydata2 != ngaydata)
+                    //    {
+                    //        try
+                    //        {
+                    //            try
+                    //            {
+                    //                ftp ftpClient = new ftp(@"ftp://27.72.29.28/", "hts", "hoanglaota");
 
-                    }));
-                    lbcapnhat.Invoke(new MethodInvoker(delegate ()
-                    {
-                        lbcapnhat.Text = ngaykm2;
-                    }));
-                }
-                catch (Exception)
-                {
-                    lbthongbapcapnhat.Invoke(new MethodInvoker(delegate ()
-                    {
-                        lbthongbapcapnhat.Text = "Có bản dữ liệu mới - khởi động lại chương trình để cập nhật";
-                    }));
+                    //                ftpClient.download("app/luutru/databarcode.db", Application.StartupPath + @"\databarcode.db");
+                    //            }
+                    //            catch (Exception)
+                    //            {
+                    //                lbthongbapcapnhat.Invoke(new MethodInvoker(delegate ()
+                    //                {
+                    //                    lbthongbapcapnhat.Text = "Có lỗi kết nối mạng";
+                    //                }));
+                    //                return;
+                    //            }
 
-                    return;
-                }
 
-                Thread.Sleep(1800000);
+                    //            this.Invoke(new Action(delegate ()
+                    //            {
+                    //                NotificationHts("Vừa Cập Nhật bảng barcode xong\nOk, triển chiêu.");
+                    //            }));
+                    //            consqlite.capnhatngayData(ngaydata);
+                    //        }
+                    //        catch (Exception)
+                    //        {
+                    //            lbthongbapcapnhat.Invoke(new MethodInvoker(delegate ()
+                    //            {
+                    //                lbthongbapcapnhat.Text = "Có bản dữ liệu mới khởi động lại chương trình để cập nhật";
+                    //            }));
+                    //            consqlite.capnhatngayData("-");
+                    //            throw;
+                    //        }
+
+                    //    }
+                    //    datag1.Invoke(new MethodInvoker(delegate ()
+                    //    {
+                    //        var conkm = ketnoikhuyenmai.Khoitao();
+                    //        datag1.DataSource = conkm.bangKhuyenmai();
+
+                    //    }));
+                    //    lbcapnhat.Invoke(new MethodInvoker(delegate ()
+                    //    {
+                    //        lbcapnhat.Text = ngaykm2;
+                    //    }));
+                    //}
+
+                    //Thread.Sleep(1800000);
             }
 
 

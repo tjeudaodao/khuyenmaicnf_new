@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 using System.Windows.Forms;
+using Tulpep.NotificationWindow;
 
 namespace KhuyenMai
 {
@@ -174,6 +175,26 @@ namespace KhuyenMai
             luu[1] = luu2;
 
             return luu;
+        }
+        public static void notifi_hts(string noidung)
+        {
+            PopupNotifier pop = new PopupNotifier();
+            pop.TitleText = "Thông báo";
+            pop.ContentText = "\" " + noidung + " \"";
+            pop.Image = Properties.Resources.totoro1;
+            pop.IsRightToLeft = false;
+            pop.TitleColor = System.Drawing.Color.Navy;
+            pop.TitleFont = new System.Drawing.Font("Comic Sans MS", 11, System.Drawing.FontStyle.Underline);
+            pop.BodyColor = System.Drawing.Color.DimGray;
+            pop.Size = new System.Drawing.Size(380, 130);
+            pop.ImageSize = new System.Drawing.Size(100, 100);
+            pop.ImagePadding = new Padding(15);
+            pop.ContentColor = System.Drawing.Color.White;
+            pop.ContentFont = new System.Drawing.Font("Comic Sans MS", 13, System.Drawing.FontStyle.Bold);
+            pop.Delay = 1000;
+            pop.BorderColor = System.Drawing.Color.DimGray;
+            pop.HeaderHeight = 1;
+            pop.Popup();
         }
     }
 }
